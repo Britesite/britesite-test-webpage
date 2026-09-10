@@ -1,0 +1,79 @@
+{
+  "header": {
+    "home": "Home",
+    "services": "Services",
+    "cases": "Cases",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Get in Touch"
+  },
+  "footer": {
+    "description": "Company description goes here.",
+    "services": "Services",
+    "company": "Company",
+    "about": "About Us",
+    "cases": "Case Studies",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy",
+    "copyright": "All rights reserved."
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "description": "We use cookies to improve your experience. You can customize your preferences below.",
+    "necessary": "Necessary",
+    "necessaryDesc": "Required for the website to function. Cannot be disabled.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Help us understand how visitors use the website.",
+    "marketing": "Marketing",
+    "marketingDesc": "Used to show relevant advertisements.",
+    "acceptAll": "Accept All",
+    "rejectOptional": "Necessary Only",
+    "savePreferences": "Save Preferences",
+    "customize": "Customize",
+    "settings": "Cookie settings"
+  },
+  "home": {
+    "title": "Welcome"
+  },
+  "meta": {
+    "home": {
+      "title": "Britesite Test",
+      "description": "A permanent test website for safely verifying website editing, previews and recovery in Britesite."
+    },
+    "services": {
+      "title": "[NEEDS: Services hub title — lead service category + benefit; ≤60 chars incl. the ' | Britesite Test' suffix]",
+      "description": "[NEEDS: Services hub meta description — breadth of services and the customer outcome, 120–160 chars]"
+    },
+    "cases": {
+      "title": "[NEEDS: Cases hub title — e.g. Customer results / Case studies; ≤60 chars incl. suffix]",
+      "description": "[NEEDS: Cases hub meta description — proof and outcomes for prospective buyers, 120–160 chars]"
+    },
+    "about": {
+      "title": "[NEEDS: About title — About Britesite Test + differentiator; ≤60 chars incl. suffix]",
+      "description": "[NEEDS: About meta description — company story, expertise, credibility signals, 120–160 chars]"
+    },
+    "contact": {
+      "title": "[NEEDS: Contact title — Contact Britesite Test + city/country; ≤60 chars incl. suffix]",
+      "description": "[NEEDS: Contact meta description — how and why to get in touch, 120–160 chars]"
+    },
+    "privacy": {
+      "title": "[NEEDS: Privacy policy title; ≤60 chars incl. suffix]",
+      "description": "[NEEDS: Privacy policy meta description, 120–160 chars]"
+    },
+    "cookies": {
+      "title": "[NEEDS: Cookie policy title; ≤60 chars incl. suffix]",
+      "description": "[NEEDS: Cookie policy meta description, 120–160 chars]"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to homepage"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "tryAgain": "Try again"
+  }
+}

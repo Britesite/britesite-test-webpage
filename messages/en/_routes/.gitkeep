@@ -1,0 +1,3 @@
+# Per-route translation fragments (en). See messages/da/_routes/.gitkeep.
+# Each page-builder writes only its own route's keys here; `npm run merge`
+# composes messages/en.json. Never write the shared monolith directly.
