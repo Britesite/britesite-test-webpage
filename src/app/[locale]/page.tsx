@@ -27,7 +27,7 @@ export default async function HomePage({
         <h1 className="text-4xl font-bold mb-4">
           Britesite Test
         </h1>
-        <p className="text-lg text-neutral-600 mb-8">
+        <p className="text-[22px] text-neutral-600 mb-8">
           This paragraph is a safe place to test font-size changes.
         </p>
         <p className="text-sm text-neutral-400">
