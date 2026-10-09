@@ -1,0 +1,112 @@
+# Merge only a verified Dependabot security PR whose exact head SHA passed the
+# read-only build. This trusted workflow_run job never executes PR code.
+name: Dependabot auto-merge
+
+on:
+  workflow_run:
+    workflows: [Dependabot build]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: dependabot-auto-merge
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+      id-token: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Download verified metadata
+        # Pinned by commit: this job holds contents:write and id-token:write.
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        continue-on-error: true
+        with:
+          name: dependabot-metadata
+          path: ${{ runner.temp }}/dependabot
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Validate pull request identity
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          metadata="$RUNNER_TEMP/dependabot"
+          if [[ ! -s "$metadata/pr-number" || ! -s "$metadata/head-sha" || ! -s "$metadata/update-type" ]]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          number="$(tr -d '[:space:]' < "$metadata/pr-number")"
+          built_sha="$(tr -d '[:space:]' < "$metadata/head-sha")"
+          update_type="$(tr -d '[:space:]' < "$metadata/update-type")"
+          if [[ ! "$number" =~ ^[0-9]+$ || ! "$built_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          case "$update_type" in
+            version-update:semver-major|version-update:semver-minor|version-update:semver-patch) ;;
+            *) echo "eligible=false" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$number" > "$RUNNER_TEMP/pull-request.json"
+          author="$(jq -r '.user.login' "$RUNNER_TEMP/pull-request.json")"
+          state="$(jq -r '.state' "$RUNNER_TEMP/pull-request.json")"
+          current_sha="$(jq -r '.head.sha' "$RUNNER_TEMP/pull-request.json")"
+          head_repo="$(jq -r '.head.repo.full_name' "$RUNNER_TEMP/pull-request.json")"
+          base_repo="$(jq -r '.base.repo.full_name' "$RUNNER_TEMP/pull-request.json")"
+          if [[ "$author" != "dependabot[bot]" || "$state" != "open" || \
+                "$built_sha" != "$EXPECTED_HEAD_SHA" || "$current_sha" != "$EXPECTED_HEAD_SHA" || \
+                "$head_repo" != "$GITHUB_REPOSITORY" || "$base_repo" != "$GITHUB_REPOSITORY" ]]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "update-type=$update_type" >> "$GITHUB_OUTPUT"
+
+      - name: Flag majors for the next sweep
+        if: steps.pr.outputs.eligible == 'true' && steps.pr.outputs.update-type == 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create dependabot-major --repo "$GITHUB_REPOSITORY" \
+            --color B60205 \
+            --description "Security bump needing a human — not auto-merged" \
+            --force
+          gh pr edit "${{ steps.pr.outputs.number }}" --repo "$GITHUB_REPOSITORY" --add-label dependabot-major
+
+      # A client site's live branch admits only the publisher App, so the
+      # editing agent lands the commit after proving this request came from
+      # this workflow (OIDC) and re-checking the commit is Dependabot's own,
+      # directly on live. A site the agent does not manage (404) has no such
+      # ruleset and is merged here.
+      - name: Merge verified security update
+        if: steps.pr.outputs.eligible == 'true' && steps.pr.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AGENT_ORIGIN: ${{ vars.WEBSITE_AGENT_ORIGIN }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          NUMBER: ${{ steps.pr.outputs.number }}
+        run: |
+          if [[ -n "$AGENT_ORIGIN" ]]; then
+            oidc="$(curl -fsS -G -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+              --data-urlencode "audience=$AGENT_ORIGIN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r .value)"
+            status="$(curl -sS -o "$RUNNER_TEMP/agent.json" -w '%{http_code}' -X POST \
+              -H "Authorization: Bearer $oidc" -H 'Content-Type: application/json' \
+              --data "{\"head_sha\":\"$HEAD_SHA\"}" "${AGENT_ORIGIN%/}/api/github/dependabot-merge" || echo 000)"
+            echo "agent answered $status: $(cat "$RUNNER_TEMP/agent.json" 2>/dev/null)"
+            if [[ "$status" == 200 ]]; then exit 0; fi
+            if [[ "$status" != 404 ]] || ! grep -q '"not_managed"' "$RUNNER_TEMP/agent.json"; then exit 1; fi
+          fi
+          gh pr merge "$NUMBER" --repo "$GITHUB_REPOSITORY" --squash
