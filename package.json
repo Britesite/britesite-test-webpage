@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "site-guide": "node scripts/site-guide.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
