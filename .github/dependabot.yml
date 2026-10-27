@@ -1,0 +1,40 @@
+# Security updates only.
+#
+# `open-pull-requests-limit: 0` switches off Dependabot's scheduled version-update
+# PRs. It does not touch security updates — those run off the advisory database and
+# are not subject to the version-update limit. A marketing site owned by one
+# non-technical person cannot triage a weekly PR queue, and every unmerged PR still
+# costs a Vercel preview build, so the queue has to stay empty until a real advisory
+# lands.
+#
+# `schedule` is still required even at limit 0; it is what the version-update entry
+# is nominally scheduled on, and is inert here.
+#
+# This file only shapes the PRs. Dependabot alerts, security updates, and the
+# dependency graph are repository *settings* — setup-website.sh turns them on at
+# repo-creation time, and update-child-sites.sh backfills them on older sites.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  # The auto-merge workflow is itself a supply chain — it holds contents:write
+  # and merges without review, so its actions need patching like anything else.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"

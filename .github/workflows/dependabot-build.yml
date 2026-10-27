@@ -1,0 +1,58 @@
+# Verify Dependabot metadata without executing PR code, then build the PR with
+# read-only credentials. The separate auto-merge workflow runs only when both
+# jobs succeed.
+name: Dependabot build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions: {}
+
+jobs:
+  metadata:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Read Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v3
+
+      - name: Save verified pull request metadata
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/dependabot"
+          printf '%s\n' "$PR_NUMBER" > "$RUNNER_TEMP/dependabot/pr-number"
+          printf '%s\n' "$HEAD_SHA" > "$RUNNER_TEMP/dependabot/head-sha"
+          printf '%s\n' "$UPDATE_TYPE" > "$RUNNER_TEMP/dependabot/update-type"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dependabot-metadata
+          path: ${{ runner.temp }}/dependabot
+          if-no-files-found: error
+
+  build:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build

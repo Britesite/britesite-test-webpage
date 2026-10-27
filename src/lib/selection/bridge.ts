@@ -7,7 +7,12 @@ export function selectionBridgeScript(parentOrigin: string): string {
 const BRIDGE = String.raw`
 if (window.parent === window) return;
 var binding = null, expires = 0, timer = null, highlight = null, focused = null, lastSent = 0;
-var blockers = [], observer = null, announcement = null;
+// A binding is good for one pick. The app arms the next one within a moment,
+// and a click that lands in between is held here and applied under that
+// binding rather than marked on the page and lost by the app.
+var consumed = false, pending = null;
+var blockers = [], observer = null, announcement = null, armedStyle = null, label = null;
+var marks = [], lastBinding = null, candidates = null;
 var tags = 'h1,h2,h3,h4,h5,h6,p,span,div,section,main,article,header,footer,aside,nav,button,a,img,figure,figcaption,li,ul,ol';
 var allowed = new Set(tags.split(','));
 function active() { return binding !== null && Date.now() < expires; }
@@ -15,41 +20,118 @@ function send(type, extra) {
   if (!binding) return;
   window.parent.postMessage(Object.assign({type: type, version: 1, id: binding.id, nonce: binding.nonce}, extra || {}), parentOrigin);
 }
-function disable() {
+function arm() {
+  document.documentElement.setAttribute('data-website-selection', 'armed');
+  if (!armedStyle) {
+    armedStyle = document.createElement('style');
+    armedStyle.setAttribute('data-selection-overlay', '');
+    armedStyle.textContent = 'html[data-website-selection="armed"], html[data-website-selection="armed"] * { cursor: crosshair !important; }';
+    document.documentElement.appendChild(armedStyle);
+  }
+}
+function disarm() {
+  document.documentElement.removeAttribute('data-website-selection');
+  if (armedStyle) armedStyle.remove();
+  armedStyle = null;
+}
+function unbind() {
   binding = null; expires = 0; focused = null; clearTimeout(timer);
+  consumed = false;
+  candidates = null;
   if (highlight) highlight.remove();
   highlight = null;
+  if (label) label.remove();
+  label = null;
   blockers.forEach(function(node) { node.remove(); }); blockers = [];
   if (observer) observer.disconnect(); observer = null;
   if (announcement) announcement.remove(); announcement = null;
+  disarm();
 }
+function inDocument(node) {
+  for (var current = node; current; current = current.parentElement) { if (current === document.body) return true; }
+  return false;
+}
+function layoutMarks() {
+  marks.forEach(function(mark, index) {
+    if (!inDocument(mark.node)) { mark.box.style.display = 'none'; return; }
+    var rect = mark.node.getBoundingClientRect();
+    mark.box.style.display = '';
+    mark.box.style.left = rect.x + 'px'; mark.box.style.top = rect.y + 'px';
+    mark.box.style.width = rect.width + 'px'; mark.box.style.height = rect.height + 'px';
+    mark.box.textContent = String(index + 1);
+  });
+}
+function addMark(id, node) {
+  var box = document.createElement('div');
+  box.setAttribute('data-selection-overlay', '');
+  box.setAttribute('data-selection-mark', '');
+  box.setAttribute('data-selection-id', id);
+  box.setAttribute('aria-hidden', 'true');
+  box.style.cssText = 'position:fixed;pointer-events:none;z-index:2147483646;border:2px dashed #8a3e22;box-sizing:border-box;background:linear-gradient(#8a3e22,#8a3e22) 0 0/22px 22px no-repeat;color:#fff;font:700 13px/22px system-ui;text-align:left;padding:0 0 0 7px;';
+  document.documentElement.appendChild(box);
+  marks.push({id: id, node: node, box: box});
+  layoutMarks();
+}
+function removeMark(id) {
+  var index = -1;
+  for (var i = 0; i < marks.length; i++) { if (marks[i].id === id) { index = i; break; } }
+  if (index < 0) return;
+  marks[index].box.remove();
+  marks.splice(index, 1);
+  layoutMarks();
+}
+function clearMarks() {
+  marks.forEach(function(mark) { mark.box.remove(); });
+  marks = [];
+}
+function disable() { pending = null; unbind(); clearMarks(); }
 window.addEventListener('message', function(event) {
   if (event.source !== window.parent || event.origin !== parentOrigin) return;
   var data = event.data;
+  var isUnmark = !!data && typeof data === 'object' && data.type === 'website-selection:unmark';
   if (!data || typeof data !== 'object' || Array.isArray(data)
-    || Object.keys(data).sort().join(',') !== 'id,nonce,type,version'
+    || Object.keys(data).sort().join(',') !== (isUnmark ? 'id,nonce,target,type,version' : 'id,nonce,type,version')
     || data.version !== 1 || !/^sel_[a-f0-9]{32}$/.test(data.id)
-    || typeof data.nonce !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(data.nonce)) return;
+    || typeof data.nonce !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(data.nonce)
+    || (isUnmark && !/^sel_[a-f0-9]{32}$/.test(data.target))) return;
+  // Marks outlive the binding (Browse mode unbinds, chips stay), so the parent
+  // may still manage them with the credentials of the last binding it held —
+  // including the disable that follows the frame's own Escape, which unbound us.
+  var known = (active() && data.id === binding.id && data.nonce === binding.nonce)
+    || (lastBinding !== null && data.id === lastBinding.id && data.nonce === lastBinding.nonce);
   if (data.type === 'website-selection:disable') {
-    if (active() && data.id === binding.id && data.nonce === binding.nonce) disable();
+    if (known) disable();
+    return;
+  }
+  if (data.type === 'website-selection:clear') {
+    if (known) clearMarks();
+    return;
+  }
+  if (isUnmark) {
+    if (known) removeMark(data.target);
     return;
   }
   if (data.type !== 'website-selection:init') return;
-  disable();
+  unbind();
   binding = {id: data.id, nonce: data.nonce};
+  lastBinding = binding;
   lastSent = 0;
+  consumed = false;
   expires = Date.now() + 10 * 60 * 1000;
   timer = setTimeout(disable, 10 * 60 * 1000);
   blockEmbeds();
   if (typeof MutationObserver !== 'undefined') {
     observer = new MutationObserver(function(records) {
+      invalidateCandidates();
       if (records.some(function(record) { return Array.from(record.addedNodes).concat(Array.from(record.removedNodes)).some(function(node) {
         return node.nodeType === 1 && (/^(IFRAME|OBJECT|EMBED)$/.test(node.tagName) || node.querySelector('iframe,object,embed'));
       }); })) blockEmbeds();
     });
     observer.observe(document.body, {childList: true, subtree: true});
   }
+  arm();
   send('website-selection:ready');
+  if (pending) { var held = pending; pending = null; select(held.target, held.event); }
 }, false);
 function suppress(event) {
   if (!active()) return;
@@ -111,6 +193,19 @@ function describe(target) {
       bounds: {x: rect.x, y: rect.y, width: rect.width, height: rect.height}},
     surroundingText: visibleText(chosen.parentElement, 1500)}};
 }
+function invalidateCandidates() { candidates = null; }
+// describe() walks ancestors with getComputedStyle/getBoundingClientRect, so scanning
+// the whole document on every Tab press freezes the page; scan once per binding and
+// drop the list when the DOM or the viewport changes underneath it.
+function candidateList() {
+  if (candidates) return candidates;
+  candidates = [];
+  var nodes = document.querySelectorAll(tags);
+  for (var i = 0; i < nodes.length && candidates.length < 1000; i++) {
+    try { if (describe(nodes[i]).node === nodes[i]) candidates.push(nodes[i]); } catch (_) {}
+  }
+  return candidates;
+}
 function outline(selected) {
   if (!highlight) {
     highlight = document.createElement('div');
@@ -119,9 +214,23 @@ function outline(selected) {
     document.documentElement.appendChild(highlight);
   }
   var rect = selected.context.element.bounds;
-  highlight.style.cssText = 'position:fixed;pointer-events:none;z-index:2147483647;border:3px solid #125e56;box-sizing:border-box;background:transparent;';
+  highlight.style.cssText = 'position:fixed;pointer-events:none;z-index:2147483647;border:3px solid #a9502e;box-sizing:border-box;background:transparent;';
   highlight.style.left = rect.x + 'px'; highlight.style.top = rect.y + 'px';
   highlight.style.width = rect.width + 'px'; highlight.style.height = rect.height + 'px';
+  highlight.style.display = '';
+  if (!label) {
+    label = document.createElement('div');
+    label.setAttribute('data-selection-overlay', '');
+    label.setAttribute('data-selection-label', '');
+    label.setAttribute('aria-hidden', 'true');
+    document.documentElement.appendChild(label);
+  }
+  var text = selected.context.element.text, shown = text.length > 40 ? text.slice(0, 40) + '…' : text;
+  label.textContent = shown ? selected.context.element.tag + ' · ' + shown : selected.context.element.tag;
+  label.style.cssText = 'position:fixed;pointer-events:none;z-index:2147483647;background:#a9502e;color:#fff;font-size:12px;line-height:1.4;padding:2px 8px;border-radius:999px;font-family:system-ui;white-space:nowrap;';
+  label.style.top = (rect.y < 24 ? rect.y + rect.height + 4 : rect.y - 22) + 'px';
+  label.style.left = Math.max(0, Math.min(rect.x, window.innerWidth - 8)) + 'px';
+  label.style.display = '';
   if (!announcement) {
     announcement = document.createElement('div');
     announcement.setAttribute('data-selection-overlay', '');
@@ -152,41 +261,70 @@ function blockEmbeds() {
 }
 ['scroll', 'resize'].forEach(function(type) {
   window.addEventListener(type, function() {
+    if (type === 'resize') invalidateCandidates();
+    if (marks.length) layoutMarks();
     if (!active()) return;
     blockEmbeds();
-    if (focused) { try { outline(describe(focused)); } catch (_) { if (highlight) highlight.style.display = 'none'; } }
+    if (focused) { try { outline(describe(focused)); } catch (_) { if (highlight) highlight.style.display = 'none'; if (label) label.style.display = 'none'; } }
   }, {capture: true, passive: true});
 });
-function select(target) {
+// A crossfade stacks its frames and the transparent one on top takes the click;
+// what the owner pointed at is the visible frame beneath it. Only a target that
+// is itself transparent falls through, and only to elements that are not.
+function describeAt(target, event) {
+  try { return describe(target); } catch (error) {
+    var css = target && target.nodeType === 1 ? getComputedStyle(target) : null;
+    if (!css || (Number(css.opacity) !== 0 && css.visibility === 'visible') || !event
+      || typeof document.elementsFromPoint !== 'function') throw error;
+    var stack = document.elementsFromPoint(event.clientX, event.clientY);
+    for (var i = 0; i < stack.length; i++) {
+      var below = stack[i];
+      if (below === target || below.hasAttribute('data-selection-overlay')) continue;
+      var belowCss = getComputedStyle(below);
+      if (Number(belowCss.opacity) === 0 || belowCss.visibility !== 'visible') continue;
+      try { return describe(below); } catch (_) { throw error; }
+    }
+    throw error;
+  }
+}
+function select(target, event) {
   if (!active() || Date.now() - lastSent < 150) return;
   lastSent = Date.now();
   try {
-    var selected = describe(target);
+    var selected = describeAt(target, event);
+    if (marks.length >= 5) { send('website-selection:error', {error: 'selection_limit'}); return; }
+    // A refused click is reported at once; a good one made while the app is
+    // still arming the next binding waits for it (see the init handler).
+    if (consumed) { pending = {target: target, event: event}; return; }
     outline(selected);
+    addMark(binding.id, selected.node);
+    consumed = true;
     send('website-selection:selected', {context: selected.context});
   } catch (error) {
     var code = error && error.message;
     send('website-selection:error', {error: ['unsupported_embedded_content', 'unsupported_sensitive_content',
-      'unsupported_element', 'element_not_visible', 'viewport_too_large'].includes(code) ? code : 'selection_unavailable'});
+      'unsupported_element', 'element_not_visible', 'viewport_too_large', 'selection_limit'].includes(code) ? code : 'selection_unavailable'});
   }
 }
 window.addEventListener('pointermove', function(event) {
   if (!active()) return;
-  try { outline(describe(event.target)); } catch (_) { if (highlight) highlight.style.display = 'none'; }
+  try { outline(describeAt(event.target, event)); } catch (_) { if (highlight) highlight.style.display = 'none'; if (label) label.style.display = 'none'; }
 }, {capture: true, passive: true});
-window.addEventListener('pointerup', function(event) { if (active()) { suppress(event); select(event.target); } }, {capture: true, passive: false});
+window.addEventListener('pointerup', function(event) { if (active()) { suppress(event); select(event.target, event); } }, {capture: true, passive: false});
 window.addEventListener('keydown', function(event) {
   if (!active()) return;
-  if (event.key === 'Escape') { suppress(event); send('website-selection:disabled'); disable(); return; }
+  if (event.key === 'Escape') { suppress(event); send('website-selection:disabled'); unbind(); return; }
   if (event.key === 'Enter' || event.key === ' ') { suppress(event); select(focused || event.target); return; }
   if (event.key !== 'Tab') return;
   suppress(event);
-  var candidates = Array.from(document.querySelectorAll(tags)).slice(0, 5000).filter(function(node) {
-    try { return describe(node).node === node; } catch (_) { return false; }
-  });
-  if (!candidates.length) { send('website-selection:error', {error: 'no_selectable_element'}); return; }
-  var index = candidates.indexOf(focused), next = index < 0 ? (event.shiftKey ? candidates.length - 1 : 0)
-    : (index + (event.shiftKey ? -1 : 1) + candidates.length) % candidates.length;
-  outline(describe(candidates[next]));
+  for (var attempt = 0; attempt < 2; attempt++) {
+    var list = candidateList();
+    if (!list.length) break;
+    var index = list.indexOf(focused), next = index < 0 ? (event.shiftKey ? list.length - 1 : 0)
+      : (index + (event.shiftKey ? -1 : 1) + list.length) % list.length;
+    // A cached candidate can have scrolled out of view since the scan; rebuild once.
+    try { outline(describe(list[next])); return; } catch (_) { invalidateCandidates(); }
+  }
+  send('website-selection:error', {error: 'no_selectable_element'});
 }, {capture: true, passive: false});
 `;
