@@ -1,7 +1,11 @@
-export function selectionBridgeScript(parentOrigin: string): string {
+// `commit` is the commit this build was made from. A preview patch names the
+// build it was measured from and is ignored by any other, so a page without a
+// known commit (null) never shows provisional text.
+export function selectionBridgeScript(parentOrigin: string, commit: string | null | undefined = process.env.VERCEL_GIT_COMMIT_SHA): string {
   const origin = new URL(parentOrigin);
   if (origin.protocol !== "https:" || origin.origin !== parentOrigin) throw new Error("invalid_selection_origin");
-  return `(function(parentOrigin){${BRIDGE}})(${JSON.stringify(parentOrigin).replace(/</g, "\\u003c")});`;
+  const builtCommit = commit && /^[0-9a-f]{40}$/.test(commit) ? commit : null;
+  return `(function(parentOrigin,builtCommit){${BRIDGE}})(${JSON.stringify(parentOrigin).replace(/</g, "\\u003c")},${JSON.stringify(builtCommit)});`;
 }
 
 const BRIDGE = String.raw`
@@ -85,9 +89,200 @@ function clearMarks() {
   marks = [];
 }
 function disable() { pending = null; unbind(); clearMarks(); }
+// A provisional view of text and pictures the owner's helper has already
+// changed in the source while the build that will really carry them is still
+// running. Only whole text nodes and a few text attributes that equal the
+// built text are touched, and the source of an img that loads a changed
+// picture, never markup; the app clears it, or the reload onto the finished
+// build replaces the page. A patch is measured from one build, so it is
+// accepted only by a page of that build (builtCommit).
+var patchKey = null, patchText = new Map(), patchImages = new Map(), patchedNodes = new Map(), patchedAttrs = new Map(), patchedImages = new Map();
+// Each accepted patch is one run; clearing ends it, so a start or a timer
+// left over from an earlier run finds itself out of date and does nothing.
+var patchRun = 0, patchObserver = null, patchTimer = null, patchReported = -1, patchQueue = [];
+var patchAttrs = ['alt', 'title', 'aria-label', 'placeholder'];
+var patchSkip = /^(script|style|noscript|template|textarea|select|option|iframe|object|embed)$/;
+function squash(value) { return String(value == null ? '' : value).replace(/\s+/g, ' ').trim(); }
+function patchFor(value) {
+  var entries = patchText.get(value);
+  if (!entries) return null;
+  var lang = String(document.documentElement.getAttribute('lang') || '').toLowerCase();
+  for (var i = 0; i < entries.length; i++) {
+    var locale = entries[i].locale;
+    if (locale && lang && lang !== locale && lang.indexOf(locale + '-') !== 0) continue;
+    return entries[i].to;
+  }
+  return null;
+}
+function patchExcluded(node) {
+  return patchSkip.test(node.tagName.toLowerCase()) || node.hasAttribute('data-selection-overlay') || node.hasAttribute('data-private')
+    || (node.hasAttribute('contenteditable') && node.getAttribute('contenteditable') !== 'false');
+}
+// The site address an img loads: its own path, or the one next/image wraps.
+function imagePath(value) {
+  if (typeof value !== 'string' || value.charAt(0) !== '/' || value.charAt(1) === '/') return null;
+  try {
+    var url = new URL(value, 'https://site.invalid');
+    if (url.pathname !== '/_next/image') return decodeURI(url.pathname);
+    var inner = url.searchParams.get('url');
+    return inner && inner.charAt(0) === '/' && inner.charAt(1) !== '/' ? inner.split('?')[0] : null;
+  } catch (error) { return null; }
+}
+function patchImage(node) {
+  var current = node.getAttribute('src'), done = patchedImages.get(node);
+  if (done && done.value === current) {
+    // The built srcset would win over the new picture if the page put it back.
+    if (node.hasAttribute('srcset')) { done.srcset = node.getAttribute('srcset'); node.removeAttribute('srcset'); }
+    return;
+  }
+  var to = patchImages.get(imagePath(current));
+  if (!to) { if (done) patchedImages.delete(node); return; }
+  patchedImages.set(node, {src: current, srcset: node.getAttribute('srcset'), value: to});
+  node.removeAttribute('srcset');
+  node.setAttribute('src', to);
+}
+function patchNode(node) {
+  if (node.nodeType === 3) {
+    var raw = String(node.textContent || ''), done = patchedNodes.get(node);
+    if (done && done.value === raw) return;
+    var to = patchFor(squash(raw));
+    if (to === null) { if (done) patchedNodes.delete(node); return; }
+    var value = raw.match(/^\s*/)[0] + to + raw.match(/\s*$/)[0];
+    patchedNodes.set(node, {original: raw, value: value});
+    node.textContent = value;
+    return;
+  }
+  if (node.nodeType !== 1 || patchExcluded(node)) return;
+  if (patchImages.size && node.tagName.toLowerCase() === 'img') patchImage(node);
+  for (var i = 0; i < patchAttrs.length; i++) {
+    var name = patchAttrs[i], current = node.getAttribute(name);
+    if (current === null) continue;
+    var seen = patchedAttrs.get(node) || {};
+    if (seen[name] && seen[name].value === current) continue;
+    var next = patchFor(squash(current));
+    if (next === null) { delete seen[name]; continue; }
+    seen[name] = {original: current, value: next};
+    patchedAttrs.set(node, seen);
+    node.setAttribute(name, next);
+  }
+  for (var child = 0; child < node.childNodes.length; child++) patchNode(node.childNodes[child]);
+}
+// A node the page changed or added: patched only when nothing above it is
+// off limits, which the walk from the body checks on its way down.
+function patchChanged(node) {
+  var start = node.nodeType === 1 ? node : node.parentElement, reached = false;
+  for (var current = start; current; current = current.parentElement) {
+    if (current === document.body) { reached = true; break; }
+    if (patchExcluded(current)) return;
+  }
+  if (reached) patchNode(node);
+}
+function patchCount() {
+  var count = 0;
+  patchedNodes.forEach(function(record, node) {
+    if (!inDocument(node.parentElement)) { patchedNodes.delete(node); return; }
+    if (node.textContent === record.value) count++;
+  });
+  patchedAttrs.forEach(function(seen, node) {
+    if (!inDocument(node)) { patchedAttrs.delete(node); return; }
+    Object.keys(seen).forEach(function(name) { if (node.getAttribute(name) === seen[name].value) count++; });
+  });
+  patchedImages.forEach(function(record, node) {
+    if (!inDocument(node)) { patchedImages.delete(node); return; }
+    if (node.getAttribute('src') === record.value) count++;
+  });
+  return count;
+}
+function applyPatch(run, everything) {
+  if (run !== patchRun || !document.body) return;
+  patchTimer = null;
+  var queue = patchQueue; patchQueue = [];
+  if (everything || queue.length > 500) patchNode(document.body);
+  else queue.forEach(patchChanged);
+  var count = patchCount();
+  if (count === patchReported || (count === 0 && patchReported < 0)) return;
+  patchReported = count;
+  window.parent.postMessage({type: 'website-preview:applied', version: 1, key: patchKey, count: count}, parentOrigin);
+}
+function startPatch(run) {
+  if (run !== patchRun) return;
+  if (typeof MutationObserver !== 'undefined') {
+    patchObserver = new MutationObserver(function(records) {
+      records.forEach(function(record) {
+        if (record.type === 'characterData' || record.type === 'attributes') patchQueue.push(record.target);
+        else Array.from(record.addedNodes || []).forEach(function(node) { patchQueue.push(node); });
+      });
+      if (patchQueue.length && patchTimer === null) patchTimer = setTimeout(function() { applyPatch(run, false); }, 60);
+    });
+    var watch = {childList: true, subtree: true, characterData: true};
+    if (patchImages.size) { watch.attributes = true; watch.attributeFilter = ['src', 'srcset']; }
+    patchObserver.observe(document.body, watch);
+  }
+  applyPatch(run, true);
+}
+function clearPatch() {
+  if (patchObserver) patchObserver.disconnect();
+  patchObserver = null;
+  clearTimeout(patchTimer); patchTimer = null; patchRun++;
+  patchKey = null; patchText = new Map(); patchImages = new Map(); patchReported = -1; patchQueue = [];
+  patchedNodes.forEach(function(record, node) { if (node.textContent === record.value) node.textContent = record.original; });
+  patchedAttrs.forEach(function(seen, node) {
+    Object.keys(seen).forEach(function(name) { if (node.getAttribute(name) === seen[name].value) node.setAttribute(name, seen[name].original); });
+  });
+  patchedImages.forEach(function(record, node) {
+    if (node.getAttribute('src') !== record.value) return;
+    node.setAttribute('src', record.src);
+    if (record.srcset !== null) node.setAttribute('srcset', record.srcset);
+  });
+  patchedNodes = new Map(); patchedAttrs = new Map(); patchedImages = new Map();
+}
+function boundedPatchText(value) { return typeof value === 'string' && value.length > 0 && value.length <= 2000; }
+function previewMessage(data) {
+  if (data.version !== 1) return;
+  var keys = Object.keys(data).sort().join(',');
+  if (data.type === 'website-preview:clear') { if (keys === 'type,version') clearPatch(); return; }
+  if (data.type !== 'website-preview:patch' || (keys !== 'base,key,text,type,version' && keys !== 'base,images,key,text,type,version')
+    || !/^[0-9a-f]{40}$/.test(data.key) || !builtCommit || data.base !== builtCommit
+    || !Array.isArray(data.text) || data.text.length > 200) return;
+  // A picture arrives as its own bytes, so the page never fetches anything
+  // on the app's say-so.
+  var sent = data.images === undefined ? [] : data.images, pictures = new Map();
+  if (!Array.isArray(sent) || sent.length > 8 || data.text.length + sent.length < 1) return;
+  for (var p = 0; p < sent.length; p++) {
+    var image = sent[p];
+    if (!image || typeof image !== 'object' || Array.isArray(image) || Object.keys(image).sort().join(',') !== 'from,src'
+      || typeof image.from !== 'string' || image.from.length > 500 || imagePath(image.from) !== image.from
+      || typeof image.src !== 'string' || image.src.length > 6000000 || !/^data:image\/(jpeg|png|webp|avif|gif);base64,[A-Za-z0-9+\/]+=*$/.test(image.src)) return;
+    pictures.set(image.from, image.src);
+  }
+  var entries = new Map();
+  for (var i = 0; i < data.text.length; i++) {
+    var entry = data.text[i];
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return;
+    var entryKeys = Object.keys(entry).sort().join(',');
+    if ((entryKeys !== 'from,to' && entryKeys !== 'from,locale,to') || !boundedPatchText(entry.from) || !boundedPatchText(entry.to)
+      || (entry.locale !== undefined && !/^[a-z]{2,3}(-[a-z0-9]{2,8})?$/.test(entry.locale))) return;
+    var from = squash(entry.from);
+    if (!entries.has(from)) entries.set(from, []);
+    entries.get(from).push({to: entry.to, locale: entry.locale || null});
+  }
+  clearPatch();
+  var run = patchRun;
+  patchKey = data.key; patchText = entries; patchImages = pictures;
+  // Changing server-rendered text while the page is still hydrating makes
+  // React throw the subtree away and render it again; wait until it has loaded
+  // and had a moment to settle.
+  var begin = function() { setTimeout(function() { startPatch(run); }, 300); };
+  if (document.readyState && document.readyState !== 'complete') window.addEventListener('load', begin, {once: true});
+  else begin();
+}
 window.addEventListener('message', function(event) {
   if (event.source !== window.parent || event.origin !== parentOrigin) return;
   var data = event.data;
+  if (data && typeof data === 'object' && !Array.isArray(data) && typeof data.type === 'string' && data.type.indexOf('website-preview:') === 0) {
+    previewMessage(data);
+    return;
+  }
   var isUnmark = !!data && typeof data === 'object' && data.type === 'website-selection:unmark';
   if (!data || typeof data !== 'object' || Array.isArray(data)
     || Object.keys(data).sort().join(',') !== (isUnmark ? 'id,nonce,target,type,version' : 'id,nonce,type,version')
