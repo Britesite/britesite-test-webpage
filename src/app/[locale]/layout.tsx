@@ -3,8 +3,12 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { Fraunces, Figtree } from "next/font/google";
+import { AnalyticsGate } from "@/components/AnalyticsGate";
 import { CookieConsent } from "@/components/CookieConsent";
-import { CookieSettingsButton } from "@/components/CookieSettingsButton";
+import { DemoBanner } from "@/components/DemoBanner";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site-config";
 import { TITLE_TEMPLATE } from "@/lib/seo/constants";
@@ -12,9 +16,18 @@ import { organizationSchema } from "@/lib/seo/structured-data";
 import { selectionBridgeScript } from "@/lib/selection/bridge";
 import { selectionBridgeConfig } from "@/lib/selection/config";
 
-// TODO: Import fonts chosen by the web-designer agent
-// import { Font_Name } from "next/font/google";
-// const fontVariable = Font_Name({ variable: "--font-display-family", ... });
+// Fonts from design-direction.md §3: Fraunces for headings, Figtree for body.
+const display = Fraunces({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-display-family",
+  display: "swap",
+  axes: ["opsz", "SOFT"],
+});
+const body = Figtree({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-body-family",
+  display: "swap",
+});
 
 // Layout-level defaults + NON-locale-varying metadata only. Each page's title,
 // description, canonical, hreflang, and og:locale are set by its own
@@ -24,24 +37,27 @@ import { selectionBridgeConfig } from "@/lib/selection/config";
 // which the Step 8/10 delivery verifier flags as a duplicate/frozen value.
 export const metadata: Metadata = {
   title: {
-    default: "Britesite Test — A safe place to try website changes",
+    default: "Café Lærke — Kaffe, kage og en god plads ved vinduet",
     template: TITLE_TEMPLATE,
   },
-  description: "A permanent test website for Britesite editing, preview and recovery.",
+  description: "Kvartercafé med morgenmad, frokost og kage bagt samme morgen",
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
-    siteName: "Britesite Test",
+    siteName: "Café Lærke",
   },
   twitter: {
     card: "summary_large_image",
   },
+  // Café Lærke is fictional and lives only on britesite-test-webpage.vercel.app,
+  // where src/proxy.ts sends `X-Robots-Tag: noindex` on every response
+  // (isIndexableHost refuses *.vercel.app), so search engines never index it.
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
     googleBot: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
       "max-image-preview": "large",
       "max-snippet": -1,
     },
@@ -101,21 +117,24 @@ export default async function LocaleLayout({
   // loud and easy to fix. The failure this prevents is silent and never gets
   // noticed. The scaffold's own client components need `cookies` and `error`; the contact-form skill mandates a client ContactForm on `contact`, so it is here even when a given site's form happens to take props instead.
   const allMessages = await getMessages();
-  const CLIENT_NAMESPACES = ["cookies", "error", "contact"] as const;
+  const CLIENT_NAMESPACES = ["cookies", "error"] as const;
   const messages = Object.fromEntries(
     CLIENT_NAMESPACES.filter((ns) => ns in allMessages).map((ns) => [ns, allMessages[ns]]),
   );
 
+  // Smooth scrolling is a base-layer rule in globals.css, not a utility class
+  // on <html>: a utility outranks every base-layer rule, including the
+  // reduced-motion one (verify:source check 24).
   return (
-    <html lang={locale} className="scroll-smooth">
+    <html lang={locale} className={`${display.variable} ${body.variable}`}>
       <head>
         {selectionBridgeSource ? <script dangerouslySetInnerHTML={{ __html: selectionBridgeSource }} /> : null}
       </head>
-      {/* TODO: Add font CSS variable classes to body once fonts are chosen */}
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
           <JsonLd data={await organizationSchema(locale)} />
-          {/* TODO: Add the designed Header and Footer around this content. Keep the settings control in the Footer. */}
+          <DemoBanner />
+          <Header />
           {/* `tabIndex={-1}` is what makes the Header's skip link actually MOVE focus.
               Without it the fragment updates and Chromium's sequential-focus fallback
               makes the next Tab land plausibly, so the link looks like it works while
@@ -124,11 +143,12 @@ export default async function LocaleLayout({
           <main id="main-content" tabIndex={-1}>
             {children}
           </main>
-          <footer className="p-6">
-            <CookieSettingsButton />
-          </footer>
+          {/* The footer's settings control, the banner and analytics render nothing
+              unless src/lib/site-consent.ts declares a consent purpose. */}
+          <Footer />
           <CookieConsent />
         </NextIntlClientProvider>
+        <AnalyticsGate />
       </body>
     </html>
   );

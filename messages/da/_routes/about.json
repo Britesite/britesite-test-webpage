@@ -1,0 +1,28 @@
+{
+  "about": {
+    "title": "Om Café Lærke",
+    "lead": "En lille kvartercafé, hvor ovnen er tændt, før dørene åbner.",
+    "storyTitle": "Sådan startede det",
+    "story1": "Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer ud mod en stille gade. Idéen var enkel: en café, hvor man kan komme uden at have bestilt bord, og hvor det, der ligger i montren, er bagt samme morgen.",
+    "story2": "Navnet er lånt fra lærken, den lille fugl, der synger tidligt om morgenen. Det passer til et sted, hvor de første boller kommer i ovnen kl. 6.",
+    "imageAlt": "Kaffe med mælkeskum og kanel i en hvid kop på et brunt bordskåner",
+    "howTitle": "Sådan arbejder vi",
+    "how": {
+      "baked": {
+        "title": "Bagt i morges",
+        "text": "Boller, kager og rugbrød bager vi selv, hver dag. Det, der er tilbage ved lukketid, får personalet med hjem."
+      },
+      "simple": {
+        "title": "En kort menu",
+        "text": "Hellere få ting, vi laver godt, end en lang liste. Menuen skifter lidt med årstiderne."
+      },
+      "everyone": {
+        "title": "Plads til alle",
+        "text": "Der er altid noget glutenfrit og noget vegansk, og en høj stol til de mindste."
+      }
+    },
+    "teamTitle": "Vi er fire",
+    "teamText": "To i køkkenet og to bag disken – og om lørdagen en ekstra hånd til kanelsneglene. Spørg os endelig, hvis du vil vide, hvad der er i maden.",
+    "cta": "Se menuen"
+  }
+}

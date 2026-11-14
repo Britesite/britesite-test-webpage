@@ -19,6 +19,12 @@ import { ImageResponse } from "next/og";
 
 const OG_SIZE = { width: 1200, height: 630 };
 
+// Rendered once at build and served as a file. A GET route handler is dynamic
+// by default, so without this every crawler and every link preview ran a
+// function to draw the same PNG again (about 200 ms each, uncacheable). The
+// card takes nothing from the request, so there is nothing to recompute.
+export const dynamic = "force-static";
+
 export function GET() {
   return new ImageResponse(
     (
@@ -36,10 +42,10 @@ export function GET() {
         }}
       >
         <div style={{ fontSize: 72, fontWeight: 700, lineHeight: 1.05 }}>
-          {"Britesite Test"}
+          {"Café Lærke"}
         </div>
         <div style={{ fontSize: 34, marginTop: 28, color: "#a3a3a3" }}>
-          {"A safe place to try website changes"}
+          {"Kaffe, kage og en god plads ved vinduet"}
         </div>
       </div>
     ),

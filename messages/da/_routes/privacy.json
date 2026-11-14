@@ -1,0 +1,35 @@
+{
+  "privacy": {
+    "title": "Privatlivspolitik",
+    "updated": "Opdateret 14. november 2026",
+    "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite via britesite.dk.",
+    "collectTitle": "Hvad vi behandler",
+    "collectText": "Siden har ingen kontaktformular, ingen statistik og ingen annoncer. Når du besøger den, modtager vores hostingudbyder, Vercel, de tekniske oplysninger, enhver hjemmeside får: din IP-adresse, hvilken browser du bruger, og hvilke sider du beder om. Det bruges til at levere siden og til at beskytte den mod misbrug.",
+    "basisTitle": "Hvorfor vi må",
+    "basisText": "Grundlaget er vores legitime interesse i at kunne vise siden og holde den sikker (databeskyttelsesforordningens artikel 6, stk. 1, litra f).",
+    "processorsTitle": "Hvem der behandler oplysningerne",
+    "processorsText": "Vercel Inc. hoster siden. Vercel er en amerikansk virksomhed, og oplysningerne kan blive behandlet i USA og andre lande. Overførslen sker på grundlag af Vercels databehandleraftale med EU-Kommissionens standardkontraktbestemmelser.",
+    "processorsLink": "Vercels databehandleraftale",
+    "retentionTitle": "Hvor længe",
+    "retentionText": "Vercel gemmer tekniske logs i en kort periode efter sine egne regler. Vi gemmer ikke selv noget om dig.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Siden gemmer kun det, den skal bruge for at virke. Den bruger ingen statistik- eller marketingcookies og viser derfor ingen cookiebanner. Der er intet at acceptere eller afvise; vil du slette cookien herunder, kan du gøre det i din browsers indstillinger.",
+    "cookieTable": {
+      "name": "Cookie",
+      "provider": "Udbyder",
+      "purpose": "Formål",
+      "duration": "Varighed",
+      "category": "Kategori"
+    },
+    "cookieRow": {
+      "name": "NEXT_LOCALE",
+      "provider": "Dette website",
+      "purpose": "Husker sidens sprog, når du vælger et, eller når du lander på et andet sprog end din browsers. Indeholder kun sprogkoden, intet der identificerer dig",
+      "duration": "Session",
+      "category": "Nødvendig"
+    },
+    "botid": "Siden har Vercel BotID, Vercels beskyttelse mod bots, indbygget til en kontaktformular. Når du sender kontaktformularen, læser Vercel BotID signaler fra din browser for at stoppe spam. Det sker kun, når en formular sendes, og formularen kan ikke fungere uden, så det kræver ikke dit samtykke. Siden har i dag ingen formular.",
+    "rightsTitle": "Dine rettigheder",
+    "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite via britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk."
+  }
+}

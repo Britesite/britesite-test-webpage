@@ -4,8 +4,8 @@ import { routing } from "@/i18n/routing";
 import { SITE_BUSINESS, SITE_URL } from "@/lib/site-config";
 import { TRAILING_SLASH } from "@/lib/site-routing-config";
 import { MIRROR_PAGES } from "@/mirror/index";
-import { absolutiseSocialImages, ensureSocialImage, injectMirrorHead, mirrorHeadFragment, readSiteName, stripManagedHead } from "@/lib/mirror/head";
-import { injectMirrorFormScript, mirrorFormScript } from "@/lib/mirror/form-script";
+import { absolutiseSocialImages, ensureSocialImage, injectMirrorHead, mirrorHeadFragment, readSiteName, setHtmlLang, stripManagedHead } from "@/lib/mirror/head";
+import { annotateInputPurpose, injectMirrorFormScript, mirrorFormScript } from "@/lib/mirror/form-script";
 import { selectionBridgeScript } from "@/lib/selection/bridge";
 import { selectionBridgeConfig } from "@/lib/selection/config";
 
@@ -26,7 +26,9 @@ const selectionBridge = selectionBridgeConfig();
 
 function injectSelectionBridge(html: string): string {
   if (!selectionBridge.origin) return html;
-  const script = `<script>${selectionBridgeScript(selectionBridge.origin)}</script>`;
+  // No commit: a mirrored page's text is the captured HTML, not the message
+  // catalogue a preview patch is derived from, so it never takes one.
+  const script = `<script>${selectionBridgeScript(selectionBridge.origin, null)}</script>`;
   const head = /<head\b[^>]*>/i.exec(html);
   const i = head ? head.index + head[0].length : 0;
   return html.slice(0, i) + script + html.slice(i);
@@ -64,8 +66,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
     siteName: readSiteName(captured),
     business: SITE_BUSINESS,
   });
-  const withHead = injectMirrorHead(stripManagedHead(ensureSocialImage(captured, defaultSocialImage())), fragment);
-  const withForm = injectMirrorFormScript(withHead, mirrorFormScript({ locale: page.locale, successPath: page.successPath }));
+  const withHead = injectMirrorHead(stripManagedHead(ensureSocialImage(setHtmlLang(captured, page.locale), defaultSocialImage())), fragment);
+  const withForm = injectMirrorFormScript(annotateInputPurpose(withHead), mirrorFormScript({ locale: page.locale, successPath: page.successPath }));
   const html = injectSelectionBridge(absolutiseSocialImages(withForm, SITE_URL));
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }

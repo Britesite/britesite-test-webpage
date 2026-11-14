@@ -47,10 +47,8 @@ export type StaticRoute = {
 // gate, not a check for the bare template; do not "fix" it by deleting routes here.
 export const STATIC_ROUTES: StaticRoute[] = [
   { path: "", priority: 1.0, changeFrequency: "monthly", metaKey: "home" },
-  { path: "/services", priority: 0.9, changeFrequency: "monthly", metaKey: "services" },
-  { path: "/cases", priority: 0.8, changeFrequency: "weekly", metaKey: "cases" },
-  { path: "/about", priority: 0.7, changeFrequency: "monthly", metaKey: "about" },
-  { path: "/contact", priority: 0.8, changeFrequency: "yearly", metaKey: "contact" },
-  { path: "/privacy", priority: 0.2, changeFrequency: "yearly", metaKey: "privacy" },
-  { path: "/cookies", priority: 0.2, changeFrequency: "yearly", metaKey: "cookies" },
+  { path: "/menu", priority: 0.9, changeFrequency: "monthly", metaKey: "menu" },
+  { path: "/om-os", priority: 0.6, changeFrequency: "yearly", metaKey: "about" },
+  { path: "/kontakt", priority: 0.8, changeFrequency: "yearly", metaKey: "contact" },
+  { path: "/privatlivspolitik", priority: 0.2, changeFrequency: "yearly", metaKey: "privacy" },
 ];

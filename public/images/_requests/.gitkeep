@@ -1,0 +1,6 @@
+# Per-route image-request fragments.
+# During the parallel build each page-builder writes its own route's
+# `## IMG-<id>` block here (e.g. `home.md`, `services.md`) instead of appending
+# to the shared IMAGE_REQUESTS.md. `npm run merge` composes the `## Requests`
+# section of IMAGE_REQUESTS.md from these, sorted by ID. Slot IDs are
+# pre-assigned in IMAGE_SLOTS.md / the Build Manifest, so rows never collide.
