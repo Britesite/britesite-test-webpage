@@ -37,7 +37,7 @@ const body = Figtree({
 // which the Step 8/10 delivery verifier flags as a duplicate/frozen value.
 export const metadata: Metadata = {
   title: {
-    default: "Café Lærke — Kaffe, kage og en god plads ved vinduet",
+    default: "Café Lærke — Kaffe, kage og en god plads i naturen",
     template: TITLE_TEMPLATE,
   },
   description: "Kvartercafé med morgenmad, frokost og kage bagt samme morgen",
