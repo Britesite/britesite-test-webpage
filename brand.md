@@ -30,7 +30,7 @@ There is no old site: no crawl, no URL inventory, no redirects and no old-site s
 - **Postal address:** Lærkestræde 3, 5000 Odense C *(demo fiction; not checked against any real address — the demo strip covers it)* (customers come to the business, so the address belongs on the site)
 - **Phone:** 01 23 45 67 *(intake, 2026-11-14)*
 - **Email:** hej@cafelaerke.example *(intake, 2026-11-14)*
-- **Opening hours:** Andet — Tirsdag til fredag 8–17, lørdag og søndag 9–16, lukket mandag *(intake, 2026-11-14)*
+- **Opening hours:** Tirsdag til fredag 8–17, lørdag og søndag 9–16, lukket mandag *(intake, 2026-11-14)*
 - **Specialty:** "Vi er en lille kvartercafé i Odense med morgenmad, frokost og kage, vi bager hver morgen." *(intake, 2026-11-14)*
 - **Trade:** Café *(intake, 2026-11-14)*
 - **Employees:** 2–5 *(intake, 2026-11-14)*

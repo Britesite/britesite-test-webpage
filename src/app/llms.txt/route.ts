@@ -39,7 +39,7 @@ export async function GET() {
   const mirrorHome = MIRROR_PAGES.find((p) => p.path === "/");
   const summary =
     mirrorHome?.description?.trim() ||
-    "[NEEDS: One-paragraph summary of Café Lærke for AI answer engines — what the company does, who it serves, and why it is credible. This is the curated description an LLM reads first.]";
+    "Café Lærke er en opdigtet kvartercafé i Odense C, lavet af Britesite som demo-hjemmeside. Siden viser morgenmad, frokost og kage bagt samme morgen, en menu med priser og åbningstider. Caféen findes ikke; adresse, telefon og e-mail er ikke rigtige.";
 
   const lines: string[] = [
     "# Café Lærke",

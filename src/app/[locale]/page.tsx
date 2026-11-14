@@ -108,7 +108,7 @@ export default async function HomePage({
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="grid items-center gap-8 overflow-hidden rounded-[20px] border border-oak bg-background md:grid-cols-2">
+        <div className="grid items-center gap-0 overflow-hidden md:gap-8 rounded-[20px] border border-oak bg-background md:grid-cols-2">
           <div className="p-8 sm:p-12">
             <p className="inline-block rounded-[999px] bg-cream px-3 py-1 text-sm font-semibold text-cinnamon">{t("weekendLabel")}</p>
             <h2 className="mt-4 hyphens-none text-4xl text-neutral-950 sm:text-5xl">{t("weekendTitle")}</h2>

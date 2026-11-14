@@ -75,7 +75,7 @@
     "about": "Morgenmad, frokost og kage, vi har bagt samme morgen. Kom forbi – du behøver ikke bestille bord.",
     "copyright": "© 2026 Café Lærke. En opdigtet café.",
     "pages": "Sider",
-    "photos": "Billeder: CC0 fra Wikimedia Commons.",
+    "photos": "Billeder: CC0 fra Wikimedia Commons og rawpixel.",
     "privacy": "Privatlivspolitik",
     "visit": "Besøg os"
   },
@@ -195,14 +195,14 @@
             "price": "125 kr."
           },
           "porridge": {
-            "desc": "Med æble, ristede hasselnødder og en klat smør",
+            "desc": "Kogt på havredrik, med æble og ristede hasselnødder",
             "name": "Havregrød",
             "price": "65 kr.",
             "tags": "vegan"
           },
           "yoghurt": {
-            "desc": "Müslien rister vi selv med honning",
-            "name": "Yoghurt med müsli og bær",
+            "desc": "Müslien rister vi selv af glutenfri havre og honning",
+            "name": "Yoghurt med glutenfri müsli og bær",
             "price": "55 kr.",
             "tags": "gf"
           }
@@ -287,7 +287,7 @@
             "price": "115 kr."
           },
           "soup": {
-            "desc": "Med surdejsbrød og smør. Spørg ved disken, hvad det er i dag",
+            "desc": "Med surdejsbrød og olivenolie. Spørg ved disken, hvad det er i dag",
             "name": "Dagens suppe",
             "price": "95 kr.",
             "tags": "vegan"
@@ -337,7 +337,7 @@
       "duration": "Session",
       "name": "NEXT_LOCALE",
       "provider": "Dette website",
-      "purpose": "Husker sidens sprog, når du vælger et, eller når du lander på et andet sprog end din browsers. Indeholder kun sprogkoden, intet der identificerer dig"
+      "purpose": "Husker sidens sprog (dansk). Indeholder kun sprogkoden, intet der identificerer dig"
     },
     "cookieTable": {
       "category": "Kategori",
@@ -348,13 +348,13 @@
     },
     "cookiesText": "Siden gemmer kun det, den skal bruge for at virke. Den bruger ingen statistik- eller marketingcookies og viser derfor ingen cookiebanner. Der er intet at acceptere eller afvise; vil du slette cookien herunder, kan du gøre det i din browsers indstillinger.",
     "cookiesTitle": "Cookies",
-    "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite via britesite.dk.",
+    "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite på info@britesite.dk.",
     "processorsLink": "Vercels databehandleraftale",
     "processorsText": "Vercel Inc. hoster siden. Vercel er en amerikansk virksomhed, og oplysningerne kan blive behandlet i USA og andre lande. Overførslen sker på grundlag af Vercels databehandleraftale med EU-Kommissionens standardkontraktbestemmelser.",
     "processorsTitle": "Hvem der behandler oplysningerne",
     "retentionText": "Vercel gemmer tekniske logs i en kort periode efter sine egne regler. Vi gemmer ikke selv noget om dig.",
     "retentionTitle": "Hvor længe",
-    "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite via britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk.",
+    "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite på info@britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk.",
     "rightsTitle": "Dine rettigheder",
     "title": "Privatlivspolitik",
     "updated": "Opdateret 14. november 2026"

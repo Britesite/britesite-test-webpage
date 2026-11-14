@@ -31,7 +31,7 @@ prices. Danish letters (æ, ø, å) render in both.
 
 **Color** *(hypothesis)* — Paper `#FBF7F0` background, ink `#2B2520` text (warm, not black),
 door green `#2F5D4A` for links, buttons and the header name; oak `#E8D6B9` and a lighter cream
-`#F3EADB` for alternating bands and cards; a muted cinnamon `#B4602F` used only for small
+`#F3EADB` for alternating bands and cards; a muted cinnamon `#9E4F22` (darkened from `#B4602F` to pass AA on cream) used only for small
 "weekend" and "today" labels. Green on paper passes AA for body text; white on green passes for
 buttons.
 

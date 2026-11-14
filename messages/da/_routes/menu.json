@@ -16,7 +16,7 @@
           },
           "porridge": {
             "name": "Havregrød",
-            "desc": "Med æble, ristede hasselnødder og en klat smør",
+            "desc": "Kogt på havredrik, med æble og ristede hasselnødder",
             "price": "65 kr.",
             "tags": "vegan"
           },
@@ -26,8 +26,8 @@
             "price": "38 kr."
           },
           "yoghurt": {
-            "name": "Yoghurt med müsli og bær",
-            "desc": "Müslien rister vi selv med honning",
+            "name": "Yoghurt med glutenfri müsli og bær",
+            "desc": "Müslien rister vi selv af glutenfri havre og honning",
             "price": "55 kr.",
             "tags": "gf"
           }
@@ -39,7 +39,7 @@
         "items": {
           "soup": {
             "name": "Dagens suppe",
-            "desc": "Med surdejsbrød og smør. Spørg ved disken, hvad det er i dag",
+            "desc": "Med surdejsbrød og olivenolie. Spørg ved disken, hvad det er i dag",
             "price": "95 kr.",
             "tags": "vegan"
           },

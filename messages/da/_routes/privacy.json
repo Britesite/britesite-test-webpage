@@ -2,7 +2,7 @@
   "privacy": {
     "title": "Privatlivspolitik",
     "updated": "Opdateret 14. november 2026",
-    "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite via britesite.dk.",
+    "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite på info@britesite.dk.",
     "collectTitle": "Hvad vi behandler",
     "collectText": "Siden har ingen kontaktformular, ingen statistik og ingen annoncer. Når du besøger den, modtager vores hostingudbyder, Vercel, de tekniske oplysninger, enhver hjemmeside får: din IP-adresse, hvilken browser du bruger, og hvilke sider du beder om. Det bruges til at levere siden og til at beskytte den mod misbrug.",
     "basisTitle": "Hvorfor vi må",
@@ -24,12 +24,12 @@
     "cookieRow": {
       "name": "NEXT_LOCALE",
       "provider": "Dette website",
-      "purpose": "Husker sidens sprog, når du vælger et, eller når du lander på et andet sprog end din browsers. Indeholder kun sprogkoden, intet der identificerer dig",
+      "purpose": "Husker sidens sprog (dansk). Indeholder kun sprogkoden, intet der identificerer dig",
       "duration": "Session",
       "category": "Nødvendig"
     },
     "botid": "Siden har Vercel BotID, Vercels beskyttelse mod bots, indbygget til en kontaktformular. Når du sender kontaktformularen, læser Vercel BotID signaler fra din browser for at stoppe spam. Det sker kun, når en formular sendes, og formularen kan ikke fungere uden, så det kræver ikke dit samtykke. Siden har i dag ingen formular.",
     "rightsTitle": "Dine rettigheder",
-    "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite via britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk."
+    "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite på info@britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk."
   }
 }

@@ -13,10 +13,4 @@
  * Lives outside `src/lib/contact/` on purpose: that directory is the locked
  * contact contract, and choosing a site's services is not a change to it.
  */
-export const CONTACT_JOB_TYPES: readonly string[] = [
-  "morgenmad",
-  "frokost",
-  "kage-og-kaffe",
-  "kagebestilling",
-  "smaa-selskaber",
-];
+export const CONTACT_JOB_TYPES: readonly string[] = [];

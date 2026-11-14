@@ -31,7 +31,7 @@ export default async function ContactPage({
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-neutral-800 sm:text-xl">{t("lead")}</p>
 
       <div className="mt-12 grid gap-6 md:grid-cols-3">
-        <section className="rounded-[20px] border border-oak bg-cream p-6 md:col-span-1 md:row-span-2">
+        <section className="rounded-[20px] border border-oak bg-cream p-6 md:self-start">
           <h2 className={label}>{info("hoursTitle")}</h2>
           <OpeningHours className="mt-4 text-lg" />
           <p className="mt-4 text-neutral-700">{info("hoursNote")}</p>
@@ -59,7 +59,7 @@ export default async function ContactPage({
           </a>
           <p className="mt-3 text-neutral-700">{t("emailNote")}</p>
         </section>
-        <section id="bestil" className="scroll-mt-6 rounded-[20px] bg-accent p-6 text-white md:col-span-2">
+        <section id="bestil" className="scroll-mt-6 rounded-[20px] bg-accent p-6 text-white md:col-span-3">
           <h2 className="text-3xl">{t("cakeTitle")}</h2>
           <p className="mt-3 text-lg leading-relaxed text-white/90">{t("cakeText")}</p>
           <p className="mt-3 font-medium">{t("cakePrice")}</p>
