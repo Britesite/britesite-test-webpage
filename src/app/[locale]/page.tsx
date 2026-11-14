@@ -70,7 +70,7 @@ export default async function HomePage({
 
         <div>
           <Image
-            src="/images/hero/plads-i-naturen.webp"
+            src="/images/hero/plads-i-naturen-realistisk.webp"
             alt={t("heroAlt")}
             width={1536}
             height={1024}
