@@ -70,13 +70,13 @@ export default async function HomePage({
 
         <div>
           <Image
-            src="/images/hero/vinduespladser.jpg"
+            src="/images/hero/plads-i-naturen.webp"
             alt={t("heroAlt")}
-            width={2000}
-            height={1662}
+            width={1536}
+            height={1024}
             priority
             sizes="(min-width: 1152px) 560px, (min-width: 768px) 50vw, 100vw"
-            className="aspect-[4/3] w-full rounded-[20px] object-cover object-[60%_center] md:aspect-[5/6]"
+            className="aspect-[4/3] w-full rounded-[20px] object-cover object-[50%_center] md:aspect-[5/6]"
           />
         </div>
       </section>
