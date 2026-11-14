@@ -99,6 +99,11 @@ export type MirrorBusiness = {
   telephone: readonly string[];
   email?: string;
   vatID?: string;
+  description?: string;
+  /** schema.org place type ("City", "AdministrativeArea") and its name. */
+  areaServed?: readonly { type: string; name: string }[];
+  /** The business's own profiles elsewhere, as the site links them. */
+  sameAs?: readonly string[];
 };
 
 const escapeAttr = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
@@ -123,15 +128,15 @@ export function mirrorHeadFragment({
   for (const [lang, href] of Object.entries(mirrorHreflang(siteUrl, page, defaultLocale, trailingSlash))) {
     lines.push(`<link rel="alternate" hrefLang="${escapeAttr(lang)}" href="${escapeAttr(href)}">`);
   }
-  lines.push(`<link rel="icon" href="/icon.svg" type="image/svg+xml">`);
   lines.push(`<meta property="og:url" content="${escapeAttr(canonical)}">`);
   lines.push(`<meta property="og:locale" content="${escapeAttr(composeOgLocale(page.locale))}">`);
+  // The SITE's name, never this page's title: that made every page claim a
+  // different name for the same @id. With no name to hand the node goes without.
+  const websiteName = siteName || business?.name;
   const jsonLd: { "@context": string; "@graph": Record<string, unknown>[] } = {
     "@context": "https://schema.org",
     "@graph": [
-      // The SITE's name — not this page's title, which made every page claim a
-      // different name for the same @id.
-      { "@type": "WebSite", "@id": `${siteUrl.replace(/\/+$/, "")}/#website`, url: mirrorAbsoluteUrl(siteUrl, "/", trailingSlash), name: siteName || page.title },
+      { "@type": "WebSite", "@id": `${siteUrl.replace(/\/+$/, "")}/#website`, url: mirrorAbsoluteUrl(siteUrl, "/", trailingSlash), ...(websiteName ? { name: websiteName } : {}) },
       { "@type": "WebPage", "@id": canonical, url: canonical, name: page.title, description: page.description, inLanguage: page.locale, isPartOf: { "@id": `${siteUrl.replace(/\/+$/, "")}/#website` } },
     ],
   };
@@ -153,10 +158,26 @@ export function mirrorHeadFragment({
       telephone: business.telephone,
       ...(business.email ? { email: business.email } : {}),
       ...(business.vatID ? { vatID: business.vatID } : {}),
+      ...(business.description ? { description: business.description } : {}),
+      ...(business.areaServed?.length ? { areaServed: business.areaServed.map((a) => ({ "@type": a.type, name: a.name })) } : {}),
+      ...(business.sameAs?.length ? { sameAs: business.sameAs } : {}),
     });
   }
   lines.push(`<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>`);
-  return lines.join("\n");
+  // No separator: a whitespace text node in <head> is a hydration mismatch for
+  // a mirrored framework that hydrates the whole document.
+  return lines.join("");
+}
+
+/** The page's own locale on its document element. A mirrored page keeps the
+ *  `<html lang>` it was served with, which on an app-builder site is often the
+ *  framework template's "en" over Danish copy (WCAG 3.1.1). */
+export function setHtmlLang(html: string, locale: string): string {
+  const lang = `lang="${escapeAttr(locale)}"`;
+  const existing = /(\s)lang\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/i;
+  return html.replace(/<html\b([^>]*)>/i, (_tag, attrs: string) =>
+    existing.test(attrs) ? `<html${attrs.replace(existing, `$1${lang}`)}>` : `<html ${lang}${attrs}>`,
+  );
 }
 
 const SOCIAL_IMAGE_META = /(<meta\b[^>]*\b(?:property|name)="(?:og:image(?::(?:url|secure_url))?|twitter:image(?::src)?)"[^>]*\bcontent=")(\/[^"]*)(")/gi;
@@ -171,7 +192,15 @@ export function absolutiseSocialImages(html: string, siteUrl: string): string {
   return html.replace(SOCIAL_IMAGE_META, (_all, head, path, tail) => `${head}${base}${path}${tail}`);
 }
 
+const EMBED_FACADE_SCRIPT = '<script src="/embed-facade.js" defer></script>';
+
+/** A page carrying a click-to-load embed facade also gets the first-party script
+ *  that swaps it for the real frame. It lives in public/ and is referenced here,
+ *  so a fleet update that changes the click behaviour reaches every mirrored page
+ *  without re-capturing any of them. */
 export function injectMirrorHead(html: string, fragment: string): string {
-  if (html.includes("<!-- mirror:head -->")) return html.replace("<!-- mirror:head -->", fragment);
-  return html.replace(/(<head\b[^>]*>)/i, `$1${fragment}`);
+  const needsFacadeScript = /\sdata-embed-facade[\s>=]/.test(html) && !html.includes(EMBED_FACADE_SCRIPT);
+  const full = needsFacadeScript ? fragment + EMBED_FACADE_SCRIPT : fragment;
+  if (html.includes("<!-- mirror:head -->")) return html.replace("<!-- mirror:head -->", full);
+  return html.replace(/(<head\b[^>]*>)/i, `$1${full}`);
 }

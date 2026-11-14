@@ -1,0 +1,17 @@
+{
+  "contact": {
+    "title": "Find vej og kontakt",
+    "lead": "Du behøver ikke bestille bord. Kom forbi, eller ring og skriv, hvis du vil bestille en lagkage eller låne baglokalet.",
+    "addressTitle": "Adresse",
+    "directions": "Fem minutters gang fra banegården. Cykelparkering lige uden for døren.",
+    "phoneTitle": "Telefon",
+    "phoneNote": "Vi tager telefonen i åbningstiden.",
+    "emailTitle": "Mail",
+    "emailNote": "Vi svarer inden for en dag.",
+    "cakeTitle": "Bestil en lagkage",
+    "cakeText": "Ring eller skriv senest tre dage før. Fortæl, hvor mange I bliver, hvilken dag I vil hente, og om der er allergier. Vi bekræfter på mail.",
+    "cakePrice": "Lagkage til 10–12 personer fra 395 kr.",
+    "partyTitle": "Små selskaber",
+    "partyText": "Baglokalet har plads til 14. Det kan lånes på hverdage efter kl. 14 til fødselsdage, barnedåb og møder. Skriv, så finder vi en dag."
+  }
+}

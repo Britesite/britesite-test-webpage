@@ -1,10 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { openCookieSettings } from "@/lib/cookie-consent";
+import { consentRequired, openCookieSettings } from "@/lib/cookie-consent";
 
 export function CookieSettingsButton() {
   const t = useTranslations("cookies");
+
+  if (!consentRequired()) return null;
 
   return (
     <button type="button" onClick={openCookieSettings}>

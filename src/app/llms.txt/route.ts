@@ -16,6 +16,11 @@ import { TRAILING_SLASH } from "@/lib/site-routing-config";
  * human-authored part is the curated one-paragraph summary. Emitted in the
  * default locale, linking to absolute (locale-prefixed) URLs.
  */
+// Built once and served as a file: everything below comes from the route
+// registry and the default locale's messages, never from the request. A GET
+// route handler is dynamic by default, which ran a function per crawler visit.
+export const dynamic = "force-static";
+
 export async function GET() {
   const locale = routing.defaultLocale;
   const t = await getTranslations({ locale, namespace: "meta" });
@@ -34,10 +39,10 @@ export async function GET() {
   const mirrorHome = MIRROR_PAGES.find((p) => p.path === "/");
   const summary =
     mirrorHome?.description?.trim() ||
-    "[NEEDS: One-paragraph summary of Britesite Test for AI answer engines — what the company does, who it serves, and why it is credible. This is the curated description an LLM reads first.]";
+    "Café Lærke er en opdigtet kvartercafé i Odense C, lavet af Britesite som demo-hjemmeside. Siden viser morgenmad, frokost og kage bagt samme morgen, en menu med priser og åbningstider. Caféen findes ikke; adresse, telefon og e-mail er ikke rigtige.";
 
   const lines: string[] = [
-    "# Britesite Test",
+    "# Café Lærke",
     "",
     `> ${summary}`,
     "",

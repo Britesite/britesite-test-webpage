@@ -9,31 +9,38 @@
 @import "tailwindcss" source("../");
 
 /* ──────────────────────────────────────────────────
-   Design Tokens
-   These will be set by the web-designer agent based
-   on the company brand. Starting with neutral defaults.
+   Design Tokens — Café Lærke (design-direction.md §3)
+   Paper and ink, the green front door, light oak.
    ────────────────────────────────────────────────── */
 
 :root {
-  --background: #FAFAFA;
-  --foreground: #111111;
+  --background: #FBF7F0;   /* paper */
+  --foreground: #2B2520;   /* ink, warm */
 
-  /* Neutral palette — replace with brand colors */
-  --color-neutral-950: #0a0a0a;
-  --color-neutral-900: #171717;
-  --color-neutral-800: #262626;
-  --color-neutral-700: #404040;
-  --color-neutral-600: #525252;
-  --color-neutral-500: #737373;
-  --color-neutral-400: #a3a3a3;
-  --color-neutral-300: #d4d4d4;
-  --color-neutral-200: #e5e5e5;
-  --color-neutral-100: #f5f5f5;
-  --color-neutral-50: #fafafa;
+  /* Warm neutrals (ink → paper) */
+  --color-neutral-950: #1C1815;
+  --color-neutral-900: #2B2520;
+  --color-neutral-800: #3D352E;
+  --color-neutral-700: #554A40;
+  --color-neutral-600: #6B5E52;
+  --color-neutral-500: #8A7C6E;
+  --color-neutral-400: #AFA292;
+  --color-neutral-300: #D3C7B6;
+  --color-neutral-200: #E8DDCC;
+  --color-neutral-100: #F3EADB;
+  --color-neutral-50: #FBF7F0;
 
-  /* Brand accent — replace with company accent color */
-  --color-accent: #2563eb;
-  --color-accent-light: #3b82f6;
+  /* Door green: links, buttons, the name in the header */
+  --color-accent: #2F5D4A;
+  --color-accent-light: #3E7660;
+  --color-accent-dark: #234737;
+
+  /* Light oak and cream surfaces */
+  --color-oak: #E8D6B9;
+  --color-cream: #F3EADB;
+
+  /* Cinnamon: small "today" / "weekend" labels only */
+  --color-cinnamon: #9E4F22;
 }
 
 @theme inline {
@@ -54,9 +61,13 @@
 
   --color-accent: var(--color-accent);
   --color-accent-light: var(--color-accent-light);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-oak: var(--color-oak);
+  --color-cream: var(--color-cream);
+  --color-cinnamon: var(--color-cinnamon);
 
-  /* Font families — set by the designer via next/font */
-  --font-display: var(--font-display-family, system-ui);
+  /* Font families — Fraunces (display) and Figtree (body) via next/font */
+  --font-display: var(--font-display-family, Georgia), Georgia, serif;
   --font-body: var(--font-body-family, system-ui);
   --font-mono: var(--font-mono-family, monospace);
 }
@@ -67,6 +78,16 @@
    `text-white text-herosub` on a hero paragraph rendered black at the body
    size, and no build error says why. */
 @layer base {
+/* Smooth in-page scrolling only for visitors who have not asked their system
+   for less motion. It lives here, not as a utility class on <html>: utilities
+   outrank this layer, so the class would win over the media query and a
+   reduced-motion visitor would still get the animated scroll. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -81,7 +102,14 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display-family, system-ui), system-ui, sans-serif;
+  font-family: var(--font-display-family, Georgia), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  /* Danish and German compounds ("Højtryksstøbning") are wider than a phone at
+     display sizes. Hyphenate them by <html lang>, instead of overflowing or
+     breaking mid-word with no hyphen. */
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 }
 
@@ -99,6 +127,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-fade-up {
   animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* A visitor who asked for less motion gets the content in place at once. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+  }
 }
 
 /* Stagger delays for sequential element animation */

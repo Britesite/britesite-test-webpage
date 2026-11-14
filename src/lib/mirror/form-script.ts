@@ -5,7 +5,11 @@
  * `data-mirror-form` at capture. Fields are mapped by type and name heuristics
  * because the original's field names are its own (`form_fields[navn]`); the
  * mapping is visible in the network request, and a wrong guess fails
- * validation loudly rather than sending an empty message.
+ * validation loudly rather than sending an empty message. Every other filled
+ * field, named or not (an app-builder form keeps its pickers in state, not in
+ * `name`s), is appended to the message as "label: value" so the owner still
+ * receives it. The result message takes focus: the disabled submit button
+ * cannot keep it.
  */
 
 export const FORM_MESSAGES: Record<string, { success: string; error: string; config: string }> = {
@@ -48,18 +52,25 @@ export function mirrorFormScript({ locale, successPath }: { locale: string; succ
   const msgs = formMessagesFor(locale);
   const config = JSON.stringify({ successPath: successPath ?? null, msgs, endpoint: CONTACT_ENDPOINT });
   return `<script>(function(){var cfg=${config.replace(/</g, "\\u003c")};
-function pick(form){var f={},seen={};var els=form.querySelectorAll("input,textarea,select");
+function val(el){var t=(el.type||"").toLowerCase();if(el.tagName==="SELECT"){var o=el.options[el.selectedIndex];return o&&o.value?o.text.trim():"";}
+if(t==="checkbox"||t==="radio")return el.checked?(el.value&&el.value!=="on"?el.value:"✓"):"";return el.value;}
+function lbl(el){var t="",l=el.labels&&el.labels[0];if(l){var c=l.cloneNode(true),x=c.querySelectorAll("input,select,textarea");for(var k=0;k<x.length;k++)x[k].remove();t=c.textContent;}
+return (t||el.getAttribute("aria-label")||el.placeholder||el.name||"").replace(/\\s+/g," ").trim();}
+function pick(form){var f={},seen={},rest=[];var els=form.querySelectorAll("input,textarea,select");
 for(var i=0;i<els.length;i++){var el=els[i],t=(el.type||"").toLowerCase(),n=(el.name||"").toLowerCase();
-if(t==="hidden"||t==="submit"||t==="button"||!el.name)continue;var v=el.value;
+if(t==="hidden"||t==="submit"||t==="button"||t==="reset"||t==="image"||t==="file"||n==="website")continue;var v=val(el);
 if(t==="email"&&!seen.email){f.email=v;seen.email=1;continue;}
 if(t==="tel"&&!seen.phone){f.phone=v;seen.phone=1;continue;}
 if(el.tagName==="TEXTAREA"&&!seen.message){f.message=v;seen.message=1;continue;}
-if(!seen.name&&(t==="text"||t==="")&&/nav|name|nom|namn/.test(n)){f.name=v;seen.name=1;continue;}
-if(!seen.subject&&/subj|emne|ämne|betreff/.test(n)){f.subject=v;seen.subject=1;continue;}
-if(!seen.name&&(t==="text"||t==="")){f.name=v;seen.name=1;continue;}
-if(!seen.message&&(t==="text"||t==="")){f.message=v;seen.message=1;continue;}}
+if(n&&!seen.name&&(t==="text"||t==="")&&/nav|name|nom|namn/.test(n)){f.name=v;seen.name=1;continue;}
+if(n&&!seen.subject&&/subj|emne|ämne|betreff/.test(n)){f.subject=v;seen.subject=1;continue;}
+rest.push(el);}
+var extra=[];for(var j=0;j<rest.length;j++){var r=rest[j],rt=(r.type||"").toLowerCase(),rv=val(r);
+if(r.name&&r.tagName==="INPUT"&&(rt==="text"||rt==="")){if(!seen.name){f.name=rv;seen.name=1;continue;}if(!seen.message){f.message=rv;seen.message=1;continue;}}
+if(!rv)continue;var lb=lbl(r);extra.push((lb?lb+": ":"")+rv);}
+if(extra.length)f.message=(f.message?f.message+"\\n\\n":"")+extra.join("\\n");
 var hp=form.querySelector('input[name="website"]');f.website=hp?hp.value:"";return f;}
-function note(form,text,ok){var n=form.querySelector("[data-mirror-note]");if(!n){n=document.createElement("div");n.setAttribute("data-mirror-note","");n.setAttribute("role","alert");form.appendChild(n);}n.textContent=text;n.style.marginTop="1em";n.style.color=ok?"inherit":"#b00020";}
+function note(form,text,ok){var n=form.querySelector("[data-mirror-note]");if(!n){n=document.createElement("div");n.setAttribute("data-mirror-note","");n.setAttribute("role","alert");n.tabIndex=-1;form.appendChild(n);}n.textContent=text;n.style.marginTop="1em";n.style.color=ok?"inherit":"#b00020";n.focus();}
 var forms=document.querySelectorAll("form[data-mirror-form]");
 for(var i=0;i<forms.length;i++)(function(form){
 var hp=document.createElement("input");hp.type="text";hp.name="website";hp.tabIndex=-1;hp.autocomplete="off";hp.setAttribute("aria-hidden","true");hp.style.cssText="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;";form.appendChild(hp);
@@ -71,6 +82,25 @@ fetch(cfg.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},bo
 else{note(form,res.code==="config_missing"?cfg.msgs.config:cfg.msgs.error,false);if(btn)btn.disabled=false;}})
 .catch(function(){note(form,cfg.msgs.error,false);if(btn)btn.disabled=false;});},true);
 })(forms[i]);})();</script>`;
+}
+
+const PURPOSE_BY_TYPE: Record<string, string> = { email: "email", tel: "tel" };
+const NAME_FIELD = /(^|[^a-z])(navn|name|nom|namn)([^a-z]|$)/;
+
+/** `autocomplete` on a mirrored form's name, email and phone inputs (WCAG 1.3.5).
+ *  Invisible, and an attribute the original's framework does not manage, so it
+ *  survives hydration. A field of unknown purpose, or one the original already
+ *  annotated, is left alone. */
+export function annotateInputPurpose(html: string): string {
+  return html.replace(/<form\b[^>]*\bdata-mirror-form\b[^>]*>[\s\S]*?<\/form>/gi, (form) =>
+    form.replace(/<input\b[^>]*>/gi, (tag) => {
+      if (/\sautocomplete\s*=/i.test(tag)) return tag;
+      const type = (/\stype\s*=\s*"([^"]*)"/i.exec(tag)?.[1] ?? "text").toLowerCase();
+      const name = (/\sname\s*=\s*"([^"]*)"/i.exec(tag)?.[1] ?? "").toLowerCase();
+      const purpose = PURPOSE_BY_TYPE[type] ?? (type === "text" && NAME_FIELD.test(name) ? "name" : null);
+      return purpose ? tag.replace(/(\s*\/?)>$/, ` autocomplete="${purpose}"$1>`) : tag;
+    }),
+  );
 }
 
 export function injectMirrorFormScript(html: string, script: string): string {

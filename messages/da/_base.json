@@ -1,0 +1,103 @@
+{
+  "cookies": {
+    "acceptAll": "Acceptér alle",
+    "analytics": "Analyse",
+    "analyticsDesc": "Hjælper os med at forstå, hvordan besøgende bruger hjemmesiden.",
+    "customize": "Tilpas",
+    "description": "Vi bruger cookies for at forbedre din oplevelse. Du kan tilpasse dine præferencer nedenfor.",
+    "marketing": "Marketing",
+    "marketingDesc": "Bruges til at vise relevante annoncer.",
+    "necessary": "Nødvendige",
+    "necessaryDesc": "Nødvendige for at hjemmesiden fungerer. Kan ikke deaktiveres.",
+    "rejectOptional": "Kun nødvendige",
+    "savePreferences": "Gem præferencer",
+    "settings": "Cookieindstillinger",
+    "title": "Cookieindstillinger"
+  },
+  "demo": {
+    "label": "Om denne side",
+    "text": "Demo: Café Lærke findes ikke. Siden er lavet af Britesite for at vise, hvordan en lille virksomhed selv retter sin hjemmeside."
+  },
+  "embeds": {
+    "cookiePolicy": "Cookiepolitik",
+    "mapAlt": "Kort over {address}",
+    "openInMaps": "Åbn i Google Maps",
+    "playVideo": "Afspil video – indlæses fra {provider}, som kan sætte cookies",
+    "showMap": "Vis interaktivt kort – indlæses fra {provider}, som kan sætte cookies"
+  },
+  "error": {
+    "description": "Der opstod en uventet fejl. Prøv venligst igen.",
+    "title": "Noget gik galt",
+    "tryAgain": "Prøv igen"
+  },
+  "footer": {
+    "about": "Morgenmad, frokost og kage, vi har bagt samme morgen. Kom forbi – du behøver ikke bestille bord.",
+    "copyright": "© 2026 Café Lærke. En opdigtet café.",
+    "pages": "Sider",
+    "photos": "Billeder: CC0 fra Wikimedia Commons og rawpixel.",
+    "privacy": "Privatlivspolitik",
+    "visit": "Besøg os"
+  },
+  "header": {
+    "about": "Om os",
+    "contact": "Kontakt",
+    "home": "Forside",
+    "menu": "Menu",
+    "navLabel": "Hovedmenu",
+    "openMenu": "Menu",
+    "skip": "Gå til indhold",
+    "tagline": "Kvartercafé i Odense C"
+  },
+  "info": {
+    "city": "5000 Odense C",
+    "email": "hej@cafelaerke.example",
+    "emailHref": "mailto:hej@cafelaerke.example",
+    "hours": {
+      "mon": {
+        "day": "Mandag",
+        "time": "Lukket"
+      },
+      "tueFri": {
+        "day": "Tirsdag–fredag",
+        "time": "8–17"
+      },
+      "weekend": {
+        "day": "Lørdag–søndag",
+        "time": "9–16"
+      }
+    },
+    "hoursNote": "Køkkenet lukker en halv time før.",
+    "hoursTitle": "Åbningstider",
+    "name": "Café Lærke",
+    "phone": "01 23 45 67",
+    "phoneHref": "tel:+4501234567",
+    "street": "Lærkestræde 3"
+  },
+  "meta": {
+    "about": {
+      "description": "Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer. Vi bager hver morgen og laver det meste fra bunden. Læs, hvem vi er, og hvordan vi arbejder.",
+      "title": "Om os"
+    },
+    "contact": {
+      "description": "Find Café Lærke i Odense C. Åbningstider, adresse, telefon og mail. Sådan bestiller du en lagkage, og sådan låner du baglokalet til et lille selskab.",
+      "title": "Find vej og kontakt"
+    },
+    "home": {
+      "description": "Kvartercafé i Odense C med morgenmad, frokost og kage, vi har bagt samme morgen. Kaffe med fri påfyldning. Åbent tirsdag til søndag, ingen bordbestilling.",
+      "title": "Café Lærke – kvartercafé med morgenmad og kage i Odense"
+    },
+    "menu": {
+      "description": "Morgenmad, frokost, kage og kaffe hos Café Lærke i Odense. Alt bagt samme morgen, altid noget glutenfrit og noget vegansk. Se hele menuen med priser.",
+      "title": "Menu og priser"
+    },
+    "privacy": {
+      "description": "Sådan behandler Café Lærkes demo-hjemmeside oplysninger om dig: hvad der logges, hvorfor, hvor længe, og hvilke rettigheder du har.",
+      "title": "Privatlivspolitik"
+    }
+  },
+  "notFound": {
+    "backHome": "Tilbage til forsiden",
+    "description": "Den side, du leder efter, findes ikke eller er blevet flyttet.",
+    "title": "Siden blev ikke fundet"
+  }
+}

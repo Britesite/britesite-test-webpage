@@ -28,7 +28,7 @@ import Link from "next/link";
 
 export default function RootNotFound() {
   return (
-    <html lang="en">
+    <html lang="da">
       <body
         style={{
           margin: 0,

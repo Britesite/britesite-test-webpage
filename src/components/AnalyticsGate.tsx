@@ -4,19 +4,20 @@ import { useEffect, useState } from "react";
 import { Analytics, type BeforeSendEvent } from "@vercel/analytics/next";
 import {
   COOKIE_CHANGED_EVENT,
-  readStoredPreferences,
+  purposeAllowed,
+  purposeDeclared,
 } from "@/lib/cookie-consent";
 
 function filterAnalyticsEvent(event: BeforeSendEvent) {
-  return readStoredPreferences()?.analytics === true ? event : null;
+  return purposeAllowed("analytics") ? event : null;
 }
 
-export function AnalyticsGate() {
+function ConsentedAnalytics() {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const syncConsent = () => {
-      setEnabled(readStoredPreferences()?.analytics === true);
+      setEnabled(purposeAllowed("analytics"));
     };
 
     syncConsent();
@@ -25,4 +26,8 @@ export function AnalyticsGate() {
   }, []);
 
   return enabled ? <Analytics beforeSend={filterAnalyticsEvent} /> : null;
+}
+
+export function AnalyticsGate() {
+  return purposeDeclared("analytics") ? <ConsentedAnalytics /> : null;
 }

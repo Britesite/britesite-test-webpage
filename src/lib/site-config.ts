@@ -10,9 +10,8 @@
 
 // Domain resolution, in priority order:
 //   1. NEXT_PUBLIC_SITE_DOMAIN     — set this once a custom domain is attached
-//   2. britesite-test-webpage.vercel.app                   — substituted by setup-website.sh IF a domain was
-//                                     known at scaffold time (usually it isn't, so the
-//                                     placeholder is left intact and skipped below)
+//   2. the domain substituted by setup-website.sh at scaffold time, when one
+//      was known (here: britesite-test-webpage.vercel.app)
 //   3. VERCEL_PROJECT_PRODUCTION_URL — the stable production domain Vercel injects at
 //                                     build time (NOT VERCEL_URL, which changes per deploy)
 //   4. localhost:3000              — local dev fallback

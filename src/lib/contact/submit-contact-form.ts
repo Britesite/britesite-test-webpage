@@ -1,7 +1,10 @@
 'use server';
 
 import { checkBotId } from 'botid/server';
+import { headers } from 'next/headers';
+import { after } from 'next/server';
 import { processContactSubmission, type ContactFormState } from './process-contact';
+import { pagePathFrom } from './record-enquiry';
 
 export type { ContactFormState } from './process-contact';
 
@@ -62,7 +65,11 @@ export async function submitContactForm(
       phone: formData.get('phone'),
       subject: formData.get('subject'),
       message: formData.get('message'),
+      jobType: formData.get('jobType'),
     },
     botIdVerdict,
+    // A Server Action posts to the page it was rendered on, so the Referer is
+    // that page — the form component needs no extra field.
+    { page: pagePathFrom((await headers()).get('referer')), defer: after },
   );
 }

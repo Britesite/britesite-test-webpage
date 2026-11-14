@@ -1,0 +1,129 @@
+{
+  "menu": {
+    "title": "Menu",
+    "lead": "Alt er bagt eller lavet her i køkkenet samme dag. Har du en allergi, så spørg ved disken – vi ved, hvad der er i.",
+    "legendGf": "Glutenfri",
+    "legendVegan": "Vegansk",
+    "sections": {
+      "breakfast": {
+        "title": "Morgenmad",
+        "note": "Til kl. 11.30",
+        "items": {
+          "plate": {
+            "name": "Morgenmadstallerken",
+            "desc": "Surdejsbolle, ost, æg, yoghurt med hjemmelavet müsli, frugt og en lille kage",
+            "price": "125 kr."
+          },
+          "porridge": {
+            "name": "Havregrød",
+            "desc": "Kogt på havredrik, med æble og ristede hasselnødder",
+            "price": "65 kr.",
+            "tags": "vegan"
+          },
+          "bun": {
+            "name": "Surdejsbolle med smør og ost",
+            "desc": "Bagt i morges",
+            "price": "38 kr."
+          },
+          "yoghurt": {
+            "name": "Yoghurt med glutenfri müsli og bær",
+            "desc": "Müslien rister vi selv af glutenfri havre og honning",
+            "price": "55 kr.",
+            "tags": "gf"
+          }
+        }
+      },
+      "lunch": {
+        "title": "Frokost",
+        "note": "Kl. 11.30–14.30",
+        "items": {
+          "soup": {
+            "name": "Dagens suppe",
+            "desc": "Med surdejsbrød og olivenolie. Spørg ved disken, hvad det er i dag",
+            "price": "95 kr.",
+            "tags": "vegan"
+          },
+          "smorrebrod": {
+            "name": "Smørrebrød, 2 stk.",
+            "desc": "Skiftende pålæg efter sæson, på rugbrød vi selv bager",
+            "price": "115 kr."
+          },
+          "sandwich": {
+            "name": "Lun sandwich",
+            "desc": "Æg, skinke, ost og tomat i ristet brød",
+            "price": "105 kr."
+          },
+          "salad": {
+            "name": "Salat med linser og bagte rodfrugter",
+            "desc": "Med tahindressing",
+            "price": "105 kr.",
+            "tags": "vegan gf"
+          }
+        }
+      },
+      "cake": {
+        "title": "Kage og bagværk",
+        "note": "Hele dagen, så længe der er",
+        "items": {
+          "today": {
+            "name": "Dagens kage",
+            "desc": "Står i montren fra morgenstunden",
+            "price": "45 kr."
+          },
+          "gfCake": {
+            "name": "Glutenfri chokoladekage",
+            "desc": "Med mandler og havsalt",
+            "price": "45 kr.",
+            "tags": "gf"
+          },
+          "snail": {
+            "name": "Kanelsnegl",
+            "desc": "Kun lørdag og søndag, fra kl. 9",
+            "price": "34 kr."
+          },
+          "cookie": {
+            "name": "Havrecookie",
+            "desc": "Med mørk chokolade",
+            "price": "22 kr."
+          }
+        }
+      },
+      "drinks": {
+        "title": "Drikke",
+        "note": "",
+        "items": {
+          "filter": {
+            "name": "Kaffe fra kanden",
+            "desc": "Fri påfyldning, så længe du sidder her",
+            "price": "32 kr."
+          },
+          "cappuccino": {
+            "name": "Cappuccino",
+            "desc": "Også med havremælk",
+            "price": "42 kr."
+          },
+          "latte": {
+            "name": "Caffe latte",
+            "desc": "Også med havremælk",
+            "price": "45 kr."
+          },
+          "tea": {
+            "name": "Te fra løs vægt",
+            "desc": "Sort, grøn eller urte",
+            "price": "35 kr."
+          },
+          "juice": {
+            "name": "Æblemost",
+            "desc": "Fra en frugtplantage på Fyn",
+            "price": "35 kr."
+          }
+        }
+      }
+    },
+    "imageAlt": "Morgenmad på et træbord: toast med bær og yoghurt, en kop kaffe med mælk og en skål friske bær",
+    "footnote": "Priserne er inkl. moms. Vi tager kort, MobilePay og kontanter.",
+    "cakeTitle": "Lagkage til fødselsdagen",
+    "cakeText": "Til 10–12 personer fra 395 kr. Bestil senest tre dage før.",
+    "cakeLink": "Sådan bestiller du"
+  }
+}
