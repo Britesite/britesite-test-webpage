@@ -4,8 +4,12 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 
 import {
+  acceptAllPreferences,
   COOKIE_CHANGED_EVENT,
   COOKIE_SETTINGS_EVENT,
+  consentRequired,
+  framedByEditor,
+  purposeDeclared,
   readStoredPreferences,
   storePreferences,
   type CookiePreferences,
@@ -39,6 +43,10 @@ function getHydratedServerSnapshot() {
 }
 
 export function CookieConsent() {
+  return consentRequired() ? <ConsentBanner /> : null;
+}
+
+function ConsentBanner() {
   const t = useTranslations("cookies");
   const hydrated = useSyncExternalStore(
     subscribeToHydration,
@@ -56,7 +64,8 @@ export function CookieConsent() {
     useState<CookiePreferences | null>(null);
   const preferences =
     draftPreferences ?? storedPreferences ?? defaultPreferences;
-  const visible = hydrated && (visibleOverride || storedPreferences === null);
+  const visible =
+    hydrated && (visibleOverride || (storedPreferences === null && !framedByEditor()));
 
   useEffect(() => {
     const openSettings = () => {
@@ -70,7 +79,7 @@ export function CookieConsent() {
   }, []);
 
   function acceptAll() {
-    const prefs = { necessary: true, analytics: true, marketing: true };
+    const prefs = acceptAllPreferences();
     setDraftPreferences(prefs);
     storePreferences(prefs);
     setVisibleOverride(false);
@@ -108,49 +117,57 @@ export function CookieConsent() {
                 <strong>{t("necessary")}</strong> — {t("necessaryDesc")}
               </span>
             </label>
-            <label className="flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={preferences.analytics}
-                onChange={(e) =>
-                  setDraftPreferences((p) => ({
-                    ...(p ?? preferences),
-                    analytics: e.target.checked,
-                  }))
-                }
-                className="accent-accent"
-              />
-              <span>
-                <strong>{t("analytics")}</strong> — {t("analyticsDesc")}
-              </span>
-            </label>
-            <label className="flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={preferences.marketing}
-                onChange={(e) =>
-                  setDraftPreferences((p) => ({
-                    ...(p ?? preferences),
-                    marketing: e.target.checked,
-                  }))
-                }
-                className="accent-accent"
-              />
-              <span>
-                <strong>{t("marketing")}</strong> — {t("marketingDesc")}
-              </span>
-            </label>
+            {purposeDeclared("analytics") && (
+              <label className="flex items-center gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  checked={preferences.analytics}
+                  onChange={(e) =>
+                    setDraftPreferences((p) => ({
+                      ...(p ?? preferences),
+                      analytics: e.target.checked,
+                    }))
+                  }
+                  className="accent-accent"
+                />
+                <span>
+                  <strong>{t("analytics")}</strong> — {t("analyticsDesc")}
+                </span>
+              </label>
+            )}
+            {purposeDeclared("marketing") && (
+              <label className="flex items-center gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  checked={preferences.marketing}
+                  onChange={(e) =>
+                    setDraftPreferences((p) => ({
+                      ...(p ?? preferences),
+                      marketing: e.target.checked,
+                    }))
+                  }
+                  className="accent-accent"
+                />
+                <span>
+                  <strong>{t("marketing")}</strong> — {t("marketingDesc")}
+                </span>
+              </label>
+            )}
           </div>
         )}
 
         <div className="flex flex-wrap items-center gap-3">
+          {/* data-consent-accept/-reject are what verify-third-party presses to
+              prove Reject leaves the page clean; keep them when restyling. */}
           <button
+            data-consent-accept
             onClick={acceptAll}
             className="px-5 py-2 bg-neutral-900 text-white text-sm font-medium rounded hover:bg-neutral-800 transition-colors"
           >
             {t("acceptAll")}
           </button>
           <button
+            data-consent-reject
             onClick={rejectOptional}
             className="px-5 py-2 border border-neutral-300 text-sm font-medium rounded hover:bg-neutral-50 transition-colors"
           >

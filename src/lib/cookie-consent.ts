@@ -1,3 +1,5 @@
+import { SITE_CONSENT_PURPOSES, type ConsentPurpose } from "./site-consent.ts";
+
 export type CookiePreferences = {
   necessary: boolean;
   analytics: boolean;
@@ -37,6 +39,20 @@ function readConsentCookie() {
   }
 }
 
+// The preview deployment's own CSP lets only the editing app frame it, so a
+// framed page is the owner looking at their draft inside the editor. A consent
+// cookie cannot be kept there (a cross-site frame, and a new origin for every
+// deployment), so the banner would come back on every build and hold back
+// everything gated on a decision; the owner is not a visitor to be asked.
+export function framedByEditor(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+}
+
 export function readStoredPreferences(): CookiePreferences | null {
   if (typeof window === "undefined") return null;
 
@@ -63,4 +79,36 @@ export function storePreferences(preferences: CookiePreferences) {
 
 export function openCookieSettings() {
   window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT));
+}
+
+export function consentRequired(declared: readonly ConsentPurpose[] = SITE_CONSENT_PURPOSES): boolean {
+  return declared.length > 0;
+}
+
+export function purposeDeclared(
+  purpose: ConsentPurpose,
+  declared: readonly ConsentPurpose[] = SITE_CONSENT_PURPOSES,
+): boolean {
+  return declared.includes(purpose);
+}
+
+// The declaration is checked before the device is read: a purpose the site does
+// not declare has no banner to consent in, so a stale or forged cookie must not
+// switch it on, and nothing is read for it.
+export function purposeAllowed(
+  purpose: ConsentPurpose,
+  declared: readonly ConsentPurpose[] = SITE_CONSENT_PURPOSES,
+  read: () => CookiePreferences | null = readStoredPreferences,
+): boolean {
+  return purposeDeclared(purpose, declared) && read()?.[purpose] === true;
+}
+
+export function acceptAllPreferences(
+  declared: readonly ConsentPurpose[] = SITE_CONSENT_PURPOSES,
+): CookiePreferences {
+  return {
+    necessary: true,
+    analytics: purposeDeclared("analytics", declared),
+    marketing: purposeDeclared("marketing", declared),
+  };
 }

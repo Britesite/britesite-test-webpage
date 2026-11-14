@@ -1,0 +1,60 @@
+{
+  "home": {
+    "eyebrow": "Bagt i morges",
+    "title": "En god plads ved vinduet",
+    "lead": "Morgenmad, frokost og kage, vi har bagt samme morgen. Kom forbi, find en plads og få kaffe med fri påfyldning.",
+    "ctaMenu": "Se menuen",
+    "ctaVisit": "Find vej",
+    "heroAlt": "Lyst cafélokale med to store buede vinduer, en lang grøn bænk og træborde med små planter",
+    "practicalTitle": "Åbent i dag?",
+    "practicalWalkIn": "Ingen bordbestilling – bare kom. Er I 6 eller flere, så ring gerne først.",
+    "offerTitle": "Det kommer man efter",
+    "offer": {
+      "breakfast": {
+        "title": "Morgenmad",
+        "text": "Grød, surdejsboller og en morgenmadstallerken med det hele. Serveres til kl. 11.30.",
+        "price": "Fra 38 kr.",
+        "alt": "Morgenmad på et træbord: toast med bær og yoghurt, en kop kaffe med mælk og en skål friske bær"
+      },
+      "cake": {
+        "title": "Kage og kaffe",
+        "text": "Dagens kage står i montren fra morgenstunden. Kaffe fra kanden med fri påfyldning.",
+        "price": "Kage 45 kr.",
+        "alt": "Et stykke krummekage på bagepapir ved siden af en cappuccino med latte art"
+      },
+      "lunch": {
+        "title": "Frokost",
+        "text": "Dagens suppe, smørrebrød og en lun sandwich. Altid en vegansk ret. Kl. 11.30–14.30.",
+        "price": "Fra 95 kr.",
+        "alt": "Lun sandwich med æg, skinke, ost og tomat på en hvid tallerken"
+      },
+      "link": "Se hele menuen"
+    },
+    "weekendLabel": "Lørdag og søndag",
+    "weekendTitle": "Kanelsnegle fra ovnen kl. 9",
+    "weekendText": "Vi bager dem fra bunden hver weekendmorgen, med smør, kanel og lidt kardemomme. Når de er væk, er de væk – som regel ved middagstid.",
+    "weekendAlt": "Bageplade med nybagte kanelsnegle, drysset med mel",
+    "factsTitle": "Godt at vide",
+    "facts": {
+      "seats": {
+        "title": "28 pladser inde",
+        "text": "Og 12 ude, når vejret er til det, fra april til september."
+      },
+      "glutenFree": {
+        "title": "Altid noget glutenfrit",
+        "text": "Mindst én glutenfri kage og en vegansk frokostret hver dag."
+      },
+      "refill": {
+        "title": "Fri påfyldning",
+        "text": "På kaffe fra kanden, så længe du sidder her."
+      },
+      "pay": {
+        "title": "Kort og MobilePay",
+        "text": "Vi tager også kontanter, men helst kort."
+      }
+    },
+    "cakeTitle": "Fødselsdag på vej?",
+    "cakeText": "Vi bager lagkager til 10–12 personer fra 395 kr. Bestil senest tre dage før, så står den klar til at hente.",
+    "cakeLink": "Sådan bestiller du"
+  }
+}

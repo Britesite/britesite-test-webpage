@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "jsx-a11y", "nextjs", "import", "typescript"],
+  "categories": { "correctness": "error" },
+  "rules": {
+    // Not in the correctness set, and the old ESLint setup enforced them.
+    "react/rules-of-hooks": "error",
+    "react/no-unescaped-entities": "error",
+    "react/jsx-no-comment-textnodes": "error",
+    "react/display-name": "error",
+    "react/require-render-return": "error",
+    "react/unsupported-syntax": "warn",
+    "import/no-anonymous-default-export": "warn",
+    // `({ index, ...rest }) => rest` drops a key on purpose; the embed script
+    // in public/ is written for old browsers, where `catch` needs a binding.
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true, "caughtErrors": "none" }],
+    // The cookie notice is a non-modal region; a <dialog> element would change
+    // how it behaves. Captions are judged per video by the accessibility review.
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/media-has-caption": "off"
+  },
+  // Captured third-party bundles and pipeline working copies are not site
+  // source. The two scripts are byte-for-byte copies of the kit plugin's
+  // support files and are changed there, never here.
+  "ignorePatterns": [
+    "public/_mirror/**",
+    ".redesign-state/**",
+    "scripts/state-fingerprint.mjs",
+    "scripts/lib/design-review.mjs"
+  ]
+}

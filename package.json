@@ -9,9 +9,15 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "check": "tsc --noEmit",
-    "site-guide": "node scripts/site-guide.mjs"
+    "lint": "oxlint",
+    "test": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test --test-concurrency=4 \"src/**/*.test.ts\" \"scripts/**/*.test.mjs\"",
+    "merge": "node scripts/merge-fragments.mjs",
+    "check": "node scripts/check.mjs",
+    "images": "node scripts/optimize-images.mjs",
+    "site-guide": "node scripts/site-guide.mjs",
+    "verify": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-delivery.mjs",
+    "verify:full": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-delivery.mjs --full",
+    "verify:source": "node scripts/verify-source.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -25,18 +31,17 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "axe-core": "^4.11.1",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "^16.4.3",
+    "oxlint": "^1.93.0",
     "pixelmatch": "^7.2.0",
     "playwright": "^1.56.0",
     "pngjs": "^7.0.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^6"
   },
   "overrides": {
     "postcss": "^8.5.29"

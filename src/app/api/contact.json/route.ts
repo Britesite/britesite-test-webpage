@@ -1,4 +1,6 @@
+import { after } from "next/server";
 import { processContactSubmission } from "@/lib/contact/process-contact";
+import { pagePathFrom } from "@/lib/contact/record-enquiry";
 
 /**
  * JSON contact endpoint for mirrored pages (replicate mode). The original's
@@ -25,6 +27,9 @@ export async function POST(request: Request) {
   } catch {
     return Response.json({ status: "error", code: "validation_failed" }, { status: 400 });
   }
-  const result = await processContactSubmission(body);
+  const result = await processContactSubmission(body, undefined, {
+    page: pagePathFrom(request.headers.get("referer")),
+    defer: after,
+  });
   return Response.json(result, { status: result.status === "success" ? 200 : 422 });
 }

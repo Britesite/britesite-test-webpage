@@ -23,7 +23,7 @@ export async function organizationSchema(locale: string) {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
     "@id": `${SITE_URL}/#organization`,
-    name: "Britesite Test",
+    name: "Café Lærke",
     description: t("home.description"),
     url: absoluteUrl(locale, ""),
     // Filled per project in Step 5.3 / Step 6. A LocalBusiness `geo` MUST be a

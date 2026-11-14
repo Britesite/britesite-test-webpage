@@ -11,7 +11,7 @@
  */
 
 /** Brand suffix appended to every page title via the title template. */
-export const TITLE_SUFFIX = " | Britesite Test";
+export const TITLE_SUFFIX = " | Café Lærke";
 
 /** `%s` is replaced by the per-page title. Used as `metadata.title.template`. */
 export const TITLE_TEMPLATE = `%s${TITLE_SUFFIX}`;

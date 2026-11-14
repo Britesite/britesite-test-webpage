@@ -9,5 +9,10 @@ export const MIRROR_PATHS = new Set(MIRROR_PAGES.map((p) => p.path));
 /** Origins of iframes the mirrored pages embed; next.config.ts grants them in frame-src. */
 export const MIRROR_FRAME_SRC: string[] = [];
 
+/** Runtime responses the mirrored pages fetch at an extensionless path; src/proxy.ts answers each from its file with the headers the page's framework reads. */
+export const MIRROR_REPLAYS: { path: string; file: string; headers: Record<string, string> }[] = [];
+
+export const MIRROR_REPLAYS_BY_PATH = new Map(MIRROR_REPLAYS.map((r) => [r.path, r]));
+
 /** The original's own permanent redirects (old slugs its CMS still honoured); next.config.ts spreads them. */
 export const MIRROR_REDIRECTS: { source: string; destination: string }[] = [];

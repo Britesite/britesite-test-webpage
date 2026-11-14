@@ -1,5 +1,7 @@
 import { contactSchema } from './contact-schema.ts';
 import { sendContactEmail } from './send-contact-email.ts';
+import { recordEnquiry, type Enquiry } from './record-enquiry.ts';
+import { CONTACT_JOB_TYPES } from '../contact-job-types.ts';
 
 export type ContactErrorCode =
   | 'validation_failed'
@@ -23,8 +25,25 @@ export type ContactFields = {
   phone?: unknown;
   subject?: unknown;
   message?: unknown;
+  /** A closed choice: kept only when it is one of `CONTACT_JOB_TYPES`. */
+  jobType?: unknown;
   /** Honeypot. Bots fill hidden fields; humans don't see them. */
   website?: unknown;
+};
+
+export type SubmissionContext = {
+  /** Path of the page the form was submitted from (see `pagePathFrom`). */
+  page?: string;
+  /**
+   * Runs the enquiry record once the response is on its way. Callers pass
+   * Next's `after`, which keeps a serverless function alive for the task
+   * without making the visitor wait on it. Default: start it and don't await.
+   */
+  defer?: (task: () => Promise<void>) => void;
+  /** Seams for tests; production uses the real list, send and record. */
+  jobTypes?: readonly string[];
+  send?: typeof sendContactEmail;
+  record?: (enquiry: Enquiry) => Promise<void>;
 };
 
 /**
@@ -38,6 +57,7 @@ export type ContactFields = {
 export async function processContactSubmission(
   fields: ContactFields,
   botCheck?: () => Promise<ContactFormState | null>,
+  context: SubmissionContext = {},
 ): Promise<ContactFormState> {
   // Return success silently so attackers can't tell they were caught.
   if (typeof fields.website === 'string' && fields.website.length > 0) {
@@ -71,8 +91,15 @@ export async function processContactSubmission(
     return { status: 'error', code: 'config_missing' };
   }
 
-  const result = await sendContactEmail({
+  // Never the free-text subject: a visitor types names and phone numbers there.
+  const allowed = context.jobTypes ?? CONTACT_JOB_TYPES;
+  const jobType =
+    typeof fields.jobType === 'string' && allowed.includes(fields.jobType) ? fields.jobType : undefined;
+
+  const send = context.send ?? sendContactEmail;
+  const result = await send({
     ...parsed.data,
+    jobType,
     siteName,
     recipientEmail,
     fromEmail,
@@ -83,5 +110,23 @@ export async function processContactSubmission(
     return { status: 'error', code: result.error };
   }
 
+  scheduleEnquiryRecord(context, { page: context.page || '/', ...(jobType ? { jobType } : {}) });
+
   return { status: 'success' };
+}
+
+/** Only after the owner's email went out, and never at the visitor's expense:
+ *  nothing here may throw into the submission or delay its answer. */
+function scheduleEnquiryRecord(context: SubmissionContext, enquiry: Enquiry) {
+  const record = context.record ?? recordEnquiry;
+  const task = () =>
+    record(enquiry).catch((err) => {
+      console.error('[contact] Enquiry record failed:', err);
+    });
+  try {
+    if (context.defer) context.defer(task);
+    else void task();
+  } catch (err) {
+    console.error('[contact] Could not schedule the enquiry record:', err);
+  }
 }

@@ -1,7 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 import {NextResponse, type NextRequest} from 'next/server';
 import {routing} from './i18n/routing';
-import {MIRROR_PATHS} from './mirror/index';
+import {MIRROR_PATHS, MIRROR_REPLAYS_BY_PATH} from './mirror/index';
 import {TRAILING_SLASH} from './lib/site-routing-config';
 import {SITE_DOMAIN} from './lib/site-config';
 import {isIndexableHost} from './lib/seo/indexable-host';
@@ -26,6 +26,12 @@ export const MIRROR_HANDLER_PREFIX = '/api/mirror-page';
 export default function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   if (pathname.startsWith(MIRROR_HANDLER_PREFIX)) return NextResponse.next();
+  const replay = MIRROR_REPLAYS_BY_PATH.get(pathname);
+  if (replay) {
+    const response = NextResponse.rewrite(new URL(replay.file, request.url));
+    for (const [name, value] of Object.entries(replay.headers)) response.headers.set(name, value);
+    return withIndexingGuard(request, response);
+  }
   const key = pathname === '/' ? '/' : pathname.replace(/\/+$/, '');
   if (MIRROR_PATHS.has(key)) {
     const url = request.nextUrl.clone();

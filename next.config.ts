@@ -5,11 +5,15 @@ import { resolve } from 'path';
 import { TRAILING_SLASH } from './src/lib/site-routing-config';
 import { MIRROR_FRAME_SRC, MIRROR_REDIRECTS } from './src/mirror/index';
 import { selectionBridgeConfig } from './src/lib/selection/config';
+import { frameSrcDirective } from './src/components/embeds/providers';
+import { SITE_EMBED_PROVIDERS } from './src/components/embeds/site-providers';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const projectRoot = resolve(import.meta.dirname);
 const selectionBridge = selectionBridgeConfig();
+
+const frameSrc = frameSrcDirective(MIRROR_FRAME_SRC, SITE_EMBED_PROVIDERS);
 
 const securityHeaders = [
   ...(selectionBridge.xFrameOptions ? [{
@@ -41,9 +45,10 @@ const securityHeaders = [
       "img-src 'self' data: https:",
       "font-src 'self' data:",
       "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com",
-      // Mirrored pages (replicate mode) embed the original's maps and videos;
-      // the installer records their origins. Empty on a redesign site.
-      ...(MIRROR_FRAME_SRC.length ? [`frame-src ${MIRROR_FRAME_SRC.join(' ')}`] : []),
+      // Only the providers this site's facades load on click (site-providers.ts)
+      // plus the origins a mirrored page's facades load (the installer records
+      // them). None: no frame-src, so default-src 'self' blocks every frame.
+      ...(frameSrc ? [frameSrc] : []),
       selectionBridge.frameAncestors,
     ].join('; '),
   },
@@ -51,6 +56,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  // No `X-Powered-By: Next.js` on every response: it tells a scanner which
+  // framework to try exploits for and tells a visitor nothing.
+  poweredByHeader: false,
   experimental: {
     // Next sizes static-generation workers from the CPU count; on a 16-core
     // machine that is 15 workers at over a gigabyte each, which took a whole

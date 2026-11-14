@@ -6,6 +6,8 @@ type SendArgs = ContactInput & {
   recipientEmail: string;
   fromEmail: string;
   subjectPrefix?: string;
+  /** One of the site's fixed job types, already validated. */
+  jobType?: string;
 };
 
 type SendResult = { ok: true } | { ok: false; error: 'config_missing' | 'send_failed' };
@@ -29,6 +31,7 @@ export async function sendContactEmail(args: SendArgs): Promise<SendResult> {
     `Name: ${args.name}`,
     `Email: ${args.email}`,
     args.phone ? `Phone: ${args.phone}` : null,
+    args.jobType ? `Job type: ${args.jobType}` : null,
     '',
     'Message:',
     args.message,

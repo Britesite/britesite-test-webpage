@@ -1,0 +1,362 @@
+{
+  "about": {
+    "cta": "Se menuen",
+    "how": {
+      "baked": {
+        "text": "Boller, kager og rugbrød bager vi selv, hver dag. Det, der er tilbage ved lukketid, får personalet med hjem.",
+        "title": "Bagt i morges"
+      },
+      "everyone": {
+        "text": "Der er altid noget glutenfrit og noget vegansk, og en høj stol til de mindste.",
+        "title": "Plads til alle"
+      },
+      "simple": {
+        "text": "Hellere få ting, vi laver godt, end en lang liste. Menuen skifter lidt med årstiderne.",
+        "title": "En kort menu"
+      }
+    },
+    "howTitle": "Sådan arbejder vi",
+    "imageAlt": "Kaffe med mælkeskum og kanel i en hvid kop på et brunt bordskåner",
+    "lead": "En lille kvartercafé, hvor ovnen er tændt, før dørene åbner.",
+    "story1": "Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer ud mod en stille gade. Idéen var enkel: en café, hvor man kan komme uden at have bestilt bord, og hvor det, der ligger i montren, er bagt samme morgen.",
+    "story2": "Navnet er lånt fra lærken, den lille fugl, der synger tidligt om morgenen. Det passer til et sted, hvor de første boller kommer i ovnen kl. 6.",
+    "storyTitle": "Sådan startede det",
+    "teamText": "To i køkkenet og to bag disken – og om lørdagen en ekstra hånd til kanelsneglene. Spørg os endelig, hvis du vil vide, hvad der er i maden.",
+    "teamTitle": "Vi er fire",
+    "title": "Om Café Lærke"
+  },
+  "contact": {
+    "addressTitle": "Adresse",
+    "cakePrice": "Lagkage til 10–12 personer fra 395 kr.",
+    "cakeText": "Ring eller skriv senest tre dage før. Fortæl, hvor mange I bliver, hvilken dag I vil hente, og om der er allergier. Vi bekræfter på mail.",
+    "cakeTitle": "Bestil en lagkage",
+    "directions": "Fem minutters gang fra banegården. Cykelparkering lige uden for døren.",
+    "emailNote": "Vi svarer inden for en dag.",
+    "emailTitle": "Mail",
+    "lead": "Du behøver ikke bestille bord. Kom forbi, eller ring og skriv, hvis du vil bestille en lagkage eller låne baglokalet.",
+    "partyText": "Baglokalet har plads til 14. Det kan lånes på hverdage efter kl. 14 til fødselsdage, barnedåb og møder. Skriv, så finder vi en dag.",
+    "partyTitle": "Små selskaber",
+    "phoneNote": "Vi tager telefonen i åbningstiden.",
+    "phoneTitle": "Telefon",
+    "title": "Find vej og kontakt"
+  },
+  "cookies": {
+    "acceptAll": "Acceptér alle",
+    "analytics": "Analyse",
+    "analyticsDesc": "Hjælper os med at forstå, hvordan besøgende bruger hjemmesiden.",
+    "customize": "Tilpas",
+    "description": "Vi bruger cookies for at forbedre din oplevelse. Du kan tilpasse dine præferencer nedenfor.",
+    "marketing": "Marketing",
+    "marketingDesc": "Bruges til at vise relevante annoncer.",
+    "necessary": "Nødvendige",
+    "necessaryDesc": "Nødvendige for at hjemmesiden fungerer. Kan ikke deaktiveres.",
+    "rejectOptional": "Kun nødvendige",
+    "savePreferences": "Gem præferencer",
+    "settings": "Cookieindstillinger",
+    "title": "Cookieindstillinger"
+  },
+  "demo": {
+    "label": "Om denne side",
+    "text": "Demo: Café Lærke findes ikke. Siden er lavet af Britesite for at vise, hvordan en lille virksomhed selv retter sin hjemmeside."
+  },
+  "embeds": {
+    "cookiePolicy": "Cookiepolitik",
+    "mapAlt": "Kort over {address}",
+    "openInMaps": "Åbn i Google Maps",
+    "playVideo": "Afspil video – indlæses fra {provider}, som kan sætte cookies",
+    "showMap": "Vis interaktivt kort – indlæses fra {provider}, som kan sætte cookies"
+  },
+  "error": {
+    "description": "Der opstod en uventet fejl. Prøv venligst igen.",
+    "title": "Noget gik galt",
+    "tryAgain": "Prøv igen"
+  },
+  "footer": {
+    "about": "Morgenmad, frokost og kage, vi har bagt samme morgen. Kom forbi – du behøver ikke bestille bord.",
+    "copyright": "© 2026 Café Lærke. En opdigtet café.",
+    "pages": "Sider",
+    "photos": "Billeder: CC0 fra Wikimedia Commons og rawpixel.",
+    "privacy": "Privatlivspolitik",
+    "visit": "Besøg os"
+  },
+  "header": {
+    "about": "Om os",
+    "contact": "Kontakt",
+    "home": "Forside",
+    "menu": "Menu",
+    "navLabel": "Hovedmenu",
+    "openMenu": "Menu",
+    "skip": "Gå til indhold",
+    "tagline": "Kvartercafé i Odense C"
+  },
+  "home": {
+    "cakeLink": "Sådan bestiller du",
+    "cakeText": "Vi bager lagkager til 10–12 personer fra 395 kr. Bestil senest tre dage før, så står den klar til at hente.",
+    "cakeTitle": "Fødselsdag på vej?",
+    "ctaMenu": "Se menuen",
+    "ctaVisit": "Find vej",
+    "eyebrow": "Bagt i morges",
+    "facts": {
+      "glutenFree": {
+        "text": "Mindst én glutenfri kage og en vegansk frokostret hver dag.",
+        "title": "Altid noget glutenfrit"
+      },
+      "pay": {
+        "text": "Vi tager også kontanter, men helst kort.",
+        "title": "Kort og MobilePay"
+      },
+      "refill": {
+        "text": "På kaffe fra kanden, så længe du sidder her.",
+        "title": "Fri påfyldning"
+      },
+      "seats": {
+        "text": "Og 12 ude, når vejret er til det, fra april til september.",
+        "title": "28 pladser inde"
+      }
+    },
+    "factsTitle": "Godt at vide",
+    "heroAlt": "Lyst cafélokale med to store buede vinduer, en lang grøn bænk og træborde med små planter",
+    "lead": "Morgenmad, frokost og kage, vi har bagt samme morgen. Kom forbi, find en plads og få kaffe med fri påfyldning.",
+    "offer": {
+      "breakfast": {
+        "alt": "Morgenmad på et træbord: toast med bær og yoghurt, en kop kaffe med mælk og en skål friske bær",
+        "price": "Fra 38 kr.",
+        "text": "Grød, surdejsboller og en morgenmadstallerken med det hele. Serveres til kl. 11.30.",
+        "title": "Morgenmad"
+      },
+      "cake": {
+        "alt": "Et stykke krummekage på bagepapir ved siden af en cappuccino med latte art",
+        "price": "Kage 45 kr.",
+        "text": "Dagens kage står i montren fra morgenstunden. Kaffe fra kanden med fri påfyldning.",
+        "title": "Kage og kaffe"
+      },
+      "link": "Se hele menuen",
+      "lunch": {
+        "alt": "Lun sandwich med æg, skinke, ost og tomat på en hvid tallerken",
+        "price": "Fra 95 kr.",
+        "text": "Dagens suppe, smørrebrød og en lun sandwich. Altid en vegansk ret. Kl. 11.30–14.30.",
+        "title": "Frokost"
+      }
+    },
+    "offerTitle": "Det kommer man efter",
+    "practicalTitle": "Åbent i dag?",
+    "practicalWalkIn": "Ingen bordbestilling – bare kom. Er I 6 eller flere, så ring gerne først.",
+    "title": "En god plads ved vinduet",
+    "weekendAlt": "Bageplade med nybagte kanelsnegle, drysset med mel",
+    "weekendLabel": "Lørdag og søndag",
+    "weekendText": "Vi bager dem fra bunden hver weekendmorgen, med smør, kanel og lidt kardemomme. Når de er væk, er de væk – som regel ved middagstid.",
+    "weekendTitle": "Kanelsnegle fra ovnen kl. 9"
+  },
+  "info": {
+    "city": "5000 Odense C",
+    "email": "hej@cafelaerke.example",
+    "emailHref": "mailto:hej@cafelaerke.example",
+    "hours": {
+      "mon": {
+        "day": "Mandag",
+        "time": "Lukket"
+      },
+      "tueFri": {
+        "day": "Tirsdag–fredag",
+        "time": "8–17"
+      },
+      "weekend": {
+        "day": "Lørdag–søndag",
+        "time": "9–16"
+      }
+    },
+    "hoursNote": "Køkkenet lukker en halv time før.",
+    "hoursTitle": "Åbningstider",
+    "name": "Café Lærke",
+    "phone": "01 23 45 67",
+    "phoneHref": "tel:+4501234567",
+    "street": "Lærkestræde 3"
+  },
+  "menu": {
+    "cakeLink": "Sådan bestiller du",
+    "cakeText": "Til 10–12 personer fra 395 kr. Bestil senest tre dage før.",
+    "cakeTitle": "Lagkage til fødselsdagen",
+    "footnote": "Priserne er inkl. moms. Vi tager kort, MobilePay og kontanter.",
+    "imageAlt": "Morgenmad på et træbord: toast med bær og yoghurt, en kop kaffe med mælk og en skål friske bær",
+    "lead": "Alt er bagt eller lavet her i køkkenet samme dag. Har du en allergi, så spørg ved disken – vi ved, hvad der er i.",
+    "legendGf": "Glutenfri",
+    "legendVegan": "Vegansk",
+    "sections": {
+      "breakfast": {
+        "items": {
+          "bun": {
+            "desc": "Bagt i morges",
+            "name": "Surdejsbolle med smør og ost",
+            "price": "38 kr."
+          },
+          "plate": {
+            "desc": "Surdejsbolle, ost, æg, yoghurt med hjemmelavet müsli, frugt og en lille kage",
+            "name": "Morgenmadstallerken",
+            "price": "125 kr."
+          },
+          "porridge": {
+            "desc": "Kogt på havredrik, med æble og ristede hasselnødder",
+            "name": "Havregrød",
+            "price": "65 kr.",
+            "tags": "vegan"
+          },
+          "yoghurt": {
+            "desc": "Müslien rister vi selv af glutenfri havre og honning",
+            "name": "Yoghurt med glutenfri müsli og bær",
+            "price": "55 kr.",
+            "tags": "gf"
+          }
+        },
+        "note": "Til kl. 11.30",
+        "title": "Morgenmad"
+      },
+      "cake": {
+        "items": {
+          "cookie": {
+            "desc": "Med mørk chokolade",
+            "name": "Havrecookie",
+            "price": "22 kr."
+          },
+          "gfCake": {
+            "desc": "Med mandler og havsalt",
+            "name": "Glutenfri chokoladekage",
+            "price": "45 kr.",
+            "tags": "gf"
+          },
+          "snail": {
+            "desc": "Kun lørdag og søndag, fra kl. 9",
+            "name": "Kanelsnegl",
+            "price": "34 kr."
+          },
+          "today": {
+            "desc": "Står i montren fra morgenstunden",
+            "name": "Dagens kage",
+            "price": "45 kr."
+          }
+        },
+        "note": "Hele dagen, så længe der er",
+        "title": "Kage og bagværk"
+      },
+      "drinks": {
+        "items": {
+          "cappuccino": {
+            "desc": "Også med havremælk",
+            "name": "Cappuccino",
+            "price": "42 kr."
+          },
+          "filter": {
+            "desc": "Fri påfyldning, så længe du sidder her",
+            "name": "Kaffe fra kanden",
+            "price": "32 kr."
+          },
+          "juice": {
+            "desc": "Fra en frugtplantage på Fyn",
+            "name": "Æblemost",
+            "price": "35 kr."
+          },
+          "latte": {
+            "desc": "Også med havremælk",
+            "name": "Caffe latte",
+            "price": "45 kr."
+          },
+          "tea": {
+            "desc": "Sort, grøn eller urte",
+            "name": "Te fra løs vægt",
+            "price": "35 kr."
+          }
+        },
+        "note": "",
+        "title": "Drikke"
+      },
+      "lunch": {
+        "items": {
+          "salad": {
+            "desc": "Med tahindressing",
+            "name": "Salat med linser og bagte rodfrugter",
+            "price": "105 kr.",
+            "tags": "vegan gf"
+          },
+          "sandwich": {
+            "desc": "Æg, skinke, ost og tomat i ristet brød",
+            "name": "Lun sandwich",
+            "price": "105 kr."
+          },
+          "smorrebrod": {
+            "desc": "Skiftende pålæg efter sæson, på rugbrød vi selv bager",
+            "name": "Smørrebrød, 2 stk.",
+            "price": "115 kr."
+          },
+          "soup": {
+            "desc": "Med surdejsbrød og olivenolie. Spørg ved disken, hvad det er i dag",
+            "name": "Dagens suppe",
+            "price": "95 kr.",
+            "tags": "vegan"
+          }
+        },
+        "note": "Kl. 11.30–14.30",
+        "title": "Frokost"
+      }
+    },
+    "title": "Menu"
+  },
+  "meta": {
+    "about": {
+      "description": "Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer. Vi bager hver morgen og laver det meste fra bunden. Læs, hvem vi er, og hvordan vi arbejder.",
+      "title": "Om os"
+    },
+    "contact": {
+      "description": "Find Café Lærke i Odense C. Åbningstider, adresse, telefon og mail. Sådan bestiller du en lagkage, og sådan låner du baglokalet til et lille selskab.",
+      "title": "Find vej og kontakt"
+    },
+    "home": {
+      "description": "Kvartercafé i Odense C med morgenmad, frokost og kage, vi har bagt samme morgen. Kaffe med fri påfyldning. Åbent tirsdag til søndag, ingen bordbestilling.",
+      "title": "Café Lærke – kvartercafé med morgenmad og kage i Odense"
+    },
+    "menu": {
+      "description": "Morgenmad, frokost, kage og kaffe hos Café Lærke i Odense. Alt bagt samme morgen, altid noget glutenfrit og noget vegansk. Se hele menuen med priser.",
+      "title": "Menu og priser"
+    },
+    "privacy": {
+      "description": "Sådan behandler Café Lærkes demo-hjemmeside oplysninger om dig: hvad der logges, hvorfor, hvor længe, og hvilke rettigheder du har.",
+      "title": "Privatlivspolitik"
+    }
+  },
+  "notFound": {
+    "backHome": "Tilbage til forsiden",
+    "description": "Den side, du leder efter, findes ikke eller er blevet flyttet.",
+    "title": "Siden blev ikke fundet"
+  },
+  "privacy": {
+    "basisText": "Grundlaget er vores legitime interesse i at kunne vise siden og holde den sikker (databeskyttelsesforordningens artikel 6, stk. 1, litra f).",
+    "basisTitle": "Hvorfor vi må",
+    "botid": "Siden har Vercel BotID, Vercels beskyttelse mod bots, indbygget til en kontaktformular. Når du sender kontaktformularen, læser Vercel BotID signaler fra din browser for at stoppe spam. Det sker kun, når en formular sendes, og formularen kan ikke fungere uden, så det kræver ikke dit samtykke. Siden har i dag ingen formular.",
+    "collectText": "Siden har ingen kontaktformular, ingen statistik og ingen annoncer. Når du besøger den, modtager vores hostingudbyder, Vercel, de tekniske oplysninger, enhver hjemmeside får: din IP-adresse, hvilken browser du bruger, og hvilke sider du beder om. Det bruges til at levere siden og til at beskytte den mod misbrug.",
+    "collectTitle": "Hvad vi behandler",
+    "cookieRow": {
+      "category": "Nødvendig",
+      "duration": "Session",
+      "name": "NEXT_LOCALE",
+      "provider": "Dette website",
+      "purpose": "Husker sidens sprog (dansk). Indeholder kun sprogkoden, intet der identificerer dig"
+    },
+    "cookieTable": {
+      "category": "Kategori",
+      "duration": "Varighed",
+      "name": "Cookie",
+      "provider": "Udbyder",
+      "purpose": "Formål"
+    },
+    "cookiesText": "Siden gemmer kun det, den skal bruge for at virke. Den bruger ingen statistik- eller marketingcookies og viser derfor ingen cookiebanner. Der er intet at acceptere eller afvise; vil du slette cookien herunder, kan du gøre det i din browsers indstillinger.",
+    "cookiesTitle": "Cookies",
+    "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite på info@britesite.dk.",
+    "processorsLink": "Vercels databehandleraftale",
+    "processorsText": "Vercel Inc. hoster siden. Vercel er en amerikansk virksomhed, og oplysningerne kan blive behandlet i USA og andre lande. Overførslen sker på grundlag af Vercels databehandleraftale med EU-Kommissionens standardkontraktbestemmelser.",
+    "processorsTitle": "Hvem der behandler oplysningerne",
+    "retentionText": "Vercel gemmer tekniske logs i en kort periode efter sine egne regler. Vi gemmer ikke selv noget om dig.",
+    "retentionTitle": "Hvor længe",
+    "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite på info@britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk.",
+    "rightsTitle": "Dine rettigheder",
+    "title": "Privatlivspolitik",
+    "updated": "Opdateret 14. november 2026"
+  }
+}
