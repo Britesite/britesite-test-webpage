@@ -128,7 +128,7 @@ export default async function HomePage({
                 quote: reviewText(t(`reviews.${r}.quote`)),
                 author: reviewText(t(`reviews.${r}.author`)),
               }))}
-              labels={{ region: t("reviewsTitle"), previous: t("reviewsPrevious"), next: t("reviewsNext") }}
+              labels={{ region: t("reviewsTitle") }}
             />
           </div>
         </section>

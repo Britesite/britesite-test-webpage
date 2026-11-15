@@ -6,7 +6,7 @@ type Review = { quote: string; author: string };
 
 type Props = {
   reviews: Review[];
-  labels: { region: string; previous: string; next: string };
+  labels: { region: string };
 };
 
 const AUTO_MS = 5500;
@@ -67,9 +67,6 @@ export function ReviewsCarousel({ reviews, labels }: Props) {
     if (dir !== edge) setEdge(dir);
   };
 
-  const buttonClass =
-    "flex h-12 w-12 items-center justify-center rounded-[999px] border border-accent text-accent transition-colors hover:bg-accent hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
-
   return (
     <div
       role="region"
@@ -83,9 +80,10 @@ export function ReviewsCarousel({ reviews, labels }: Props) {
     >
       <ul
         ref={track}
+        tabIndex={overflowing ? 0 : undefined}
         onMouseMove={onTrackMouseMove}
         onMouseLeave={() => setEdge(0)}
-        className={`${edge === -1 ? "cursor-w-resize " : edge === 1 ? "cursor-e-resize " : ""}-mx-4 mt-12 flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden`}
+        className={`${edge === -1 ? "cursor-w-resize " : edge === 1 ? "cursor-e-resize " : ""}-mx-4 mt-12 flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
       >
         {reviews.map((review, i) => {
           const featured = i % 3 === 1;
@@ -123,16 +121,6 @@ export function ReviewsCarousel({ reviews, labels }: Props) {
           );
         })}
       </ul>
-      {overflowing && (
-        <div className="mt-2 flex gap-3">
-          <button type="button" className={buttonClass} aria-label={labels.previous} onClick={() => step(-1)}>
-            <span aria-hidden="true" className="text-2xl leading-none">&larr;</span>
-          </button>
-          <button type="button" className={buttonClass} aria-label={labels.next} onClick={() => step(1)}>
-            <span aria-hidden="true" className="text-2xl leading-none">&rarr;</span>
-          </button>
-        </div>
-      )}
     </div>
   );
 }
