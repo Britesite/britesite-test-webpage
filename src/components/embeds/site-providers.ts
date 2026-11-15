@@ -7,4 +7,4 @@ import type { EmbedProvider } from "./providers";
  * remove it when the last one goes. verify:source check 27 fails while this
  * list and src/ disagree. A plain list, read by that check as text.
  */
-export const SITE_EMBED_PROVIDERS: readonly EmbedProvider[] = [];
+export const SITE_EMBED_PROVIDERS: readonly EmbedProvider[] = ["google-maps"];

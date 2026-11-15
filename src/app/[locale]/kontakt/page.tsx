@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { MapFacade } from "@/components/embeds/MapFacade";
 import { OpeningHours } from "@/components/OpeningHours";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -65,6 +66,18 @@ export default async function ContactPage({
           <p className="mt-3 font-medium">{t("cakePrice")}</p>
         </section>
       </div>
+
+      <section className="mt-14">
+        <h2 className="text-4xl text-neutral-950">{t("mapTitle")}</h2>
+        <MapFacade
+          address={`${info("street")}, ${info("city")}`}
+          query={`${info("name")}, ${info("street")}, ${info("city")}`}
+          image={null}
+          interactive
+          policyHref="/privatlivspolitik"
+          className="mt-6 overflow-hidden rounded-[20px] border border-oak bg-cream text-accent [&_button]:rounded-[999px] [&_button]:bg-accent [&_button]:px-6 [&_button]:py-3 [&_button]:font-medium [&_button]:text-white [&_button]:hover:bg-accent-dark [&_figcaption]:flex [&_figcaption]:flex-wrap [&_figcaption]:items-center [&_figcaption]:justify-between [&_figcaption]:gap-3 [&_figcaption]:border-t [&_figcaption]:border-oak [&_figcaption]:bg-white [&_figcaption]:p-4 [&_figcaption]:text-lg [&_figcaption]:text-neutral-950 [&_figcaption_a]:underline [&_figcaption_a]:decoration-oak [&_figcaption_a]:underline-offset-4 [&_figcaption_a]:hover:decoration-accent [&>div>div>a]:rounded-[999px] [&>div>div>a]:bg-white [&>div>div>a]:px-4 [&>div>div>a]:py-2.5 [&>div>div>a]:text-neutral-950 [&>div>div>a]:underline"
+        />
+      </section>
 
       <section className="mt-14 max-w-2xl">
         <h2 className="text-4xl text-neutral-950">{t("partyTitle")}</h2>

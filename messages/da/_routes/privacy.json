@@ -10,6 +10,7 @@
     "processorsTitle": "Hvem der behandler oplysningerne",
     "processorsText": "Vercel Inc. hoster siden. Vercel er en amerikansk virksomhed, og oplysningerne kan blive behandlet i USA og andre lande. Overførslen sker på grundlag af Vercels databehandleraftale med EU-Kommissionens standardkontraktbestemmelser.",
     "processorsLink": "Vercels databehandleraftale",
+    "mapsLink": "Googles privatlivspolitik",
     "retentionTitle": "Hvor længe",
     "retentionText": "Vercel gemmer tekniske logs i en kort periode efter sine egne regler. Vi gemmer ikke selv noget om dig.",
     "cookiesTitle": "Cookies",
@@ -29,6 +30,7 @@
       "category": "Nødvendig"
     },
     "botid": "Siden har Vercel BotID, Vercels beskyttelse mod bots, indbygget til en kontaktformular. Når du sender kontaktformularen, læser Vercel BotID signaler fra din browser for at stoppe spam. Det sker kun, når en formular sendes, og formularen kan ikke fungere uden, så det kræver ikke dit samtykke. Siden har i dag ingen formular.",
+    "maps": "På siden \"Find vej og kontakt\" kan du vælge at vise et kort fra Google Maps. Kortet hentes først, når du klikker på knappen. Så modtager Google din IP-adresse og oplysninger om din browser og kan sætte cookies efter sine egne regler. Klikker du ikke, sendes der intet til Google.",
     "rightsTitle": "Dine rettigheder",
     "rightsText": "Du har ret til at få indsigt i, rettet eller slettet de oplysninger, vi har om dig, og til at gøre indsigelse mod behandlingen. Skriv til Britesite på info@britesite.dk. Er du utilfreds, kan du klage til Datatilsynet på datatilsynet.dk."
   }
