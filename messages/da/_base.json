@@ -46,7 +46,8 @@
     "navLabel": "Hovedmenu",
     "openMenu": "Menu",
     "skip": "Gå til indhold",
-    "tagline": "Kvartercafé i Odense C"
+    "tagline": "Kvartercafé i Odense C",
+    "cakes": "Lagkager og selskaber"
   },
   "info": {
     "city": "5000 Odense C",
@@ -93,6 +94,10 @@
     "privacy": {
       "description": "Sådan behandler Café Lærkes demo-hjemmeside oplysninger om dig: hvad der logges, hvorfor, hvor længe, og hvilke rettigheder du har.",
       "title": "Privatlivspolitik"
+    },
+    "cakes": {
+      "description": "Bestil lagkage til 10–12 personer fra 395 kr. hos Café Lærke i Odense C, eller lån vores baglokale til 14 gæster til fødselsdag, barnedåb eller møde.",
+      "title": "Lagkager og selskaber i Odense"
     }
   },
   "notFound": {

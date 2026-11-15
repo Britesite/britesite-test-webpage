@@ -10,6 +10,7 @@ Primary locale: `da`. Locales: `da`.
 | --- | --- | --- | --- | --- | --- | --- |
 | / | `src/app/[locale]/page.tsx` | — | home | — | no | yes |
 | /kontakt | `src/app/[locale]/kontakt/page.tsx` | — | contact | — | no | yes |
+| /lagkager-og-selskaber | `src/app/[locale]/lagkager-og-selskaber/page.tsx` | — | cakes | — | no | yes |
 | /menu | `src/app/[locale]/menu/page.tsx` | — | menu | — | no | yes |
 | /om-os | `src/app/[locale]/om-os/page.tsx` | — | about | — | no | yes |
 | /privatlivspolitik | `src/app/[locale]/privatlivspolitik/page.tsx` | — | privacy | — | no | yes |
@@ -21,12 +22,12 @@ none found
 
 ## Navigation
 
-- `FOOTER_LINKS` — `src/components/Footer.tsx:6–11` — /menu, /om-os, /kontakt, /privatlivspolitik
-- `NAV_LINKS` — `src/components/Header.tsx:4–9` — /, /menu, /om-os, /kontakt
+- `FOOTER_LINKS` — `src/components/Footer.tsx:6–12` — /menu, /lagkager-og-selskaber, /om-os, /kontakt, /privatlivspolitik
+- `NAV_LINKS` — `src/components/Header.tsx:4–10` — /, /menu, /lagkager-og-selskaber, /om-os, /kontakt
 
 ## Route registry
 
-- `src/lib/seo/routes.ts` — 5 route(s)
+- `src/lib/seo/routes.ts` — 6 route(s)
 - `src/lib/seo/dynamic-routes.ts` — getCaseSlugs, getServiceSlugs
 
 ## Translations
@@ -44,14 +45,15 @@ Rule: a fix in one language changes only that language; a meaning change updates
 | email | `a@b.dk` | `src/lib/mirror/form-script.test.ts:92` |
 | email | `ana@example.com` | `src/lib/contact/process-contact.test.ts:5`, `src/lib/contact/record-enquiry.test.ts:38` |
 | email | `forms@example.com` | `src/lib/contact/process-contact.test.ts:42` |
-| email | `hej@cafelaerke.example` | `messages/da.json:152`, `messages/da.json:153`, `messages/da/_base.json:53`, `messages/da/_base.json:54` |
+| email | `hej@cafelaerke.example` | `messages/da.json:215`, `messages/da.json:216`, `messages/da/_base.json:54`, `messages/da/_base.json:55` |
+| email | `info@britesite.dk` | `messages/da.json:418`, `messages/da.json:426`, `messages/da/_routes/privacy.json:35`, `messages/da/_routes/privacy.json:5` |
 | email | `mail@mkmurerne.dk` | `src/lib/mirror/head.test.ts:129` |
-| email | `map@1x.webp` | `src/components/embeds/MapFacade.tsx:27` |
-| email | `map@2x.webp` | `src/components/embeds/MapFacade.tsx:27` |
+| email | `map@1x.webp` | `src/components/embeds/MapFacade.tsx:30` |
+| email | `map@2x.webp` | `src/components/embeds/MapFacade.tsx:30` |
 | email | `ole@example.dk` | `src/lib/mirror/form-script.test.ts:63`, `src/lib/mirror/form-script.test.ts:73` |
 | email | `owner@example.com` | `src/lib/contact/process-contact.test.ts:41` |
 | email | `user@app.example.com` | `src/lib/selection/config.test.ts:28` |
-| phone | `+4501234567` | `messages/da.json:172`, `messages/da/_base.json:73` |
+| phone | `+4501234567` | `messages/da.json:235`, `messages/da/_base.json:74` |
 | phone | `+4522937053` | `src/lib/mirror/head.test.ts:129` |
 | phone | `+4526239929` | `src/lib/mirror/head.test.ts:138`, `src/lib/mirror/head.test.ts:146` |
 
@@ -69,7 +71,7 @@ none — content lives in the message files
 - `public/images/facility/` — 2 file(s)
 - `public/images/hero/` — 2 file(s)
 - `public/images/old-site-screenshots/` — 1 file(s)
-- `public/images/services/` — 5 file(s)
+- `public/images/services/` — 6 file(s)
 - `public/images/team/` — 1 file(s)
 
 IMAGE_SLOTS.md: present. IMAGE_CATALOG.md: absent. IMAGE_REQUESTS.md: present.
@@ -78,10 +80,7 @@ Rule: new images go under the matching role dir, descriptive kebab-case names, �
 
 ## Open content markers
 
-- da: 0 marker(s)
-
-Source files:
-- `src/app/llms.txt/route.ts:42`
+- da: 13 marker(s) — cakes.cake.kinds, cakes.room.food, cakes.room.price, home.reviews.five.author, home.reviews.five.quote, home.reviews.four.author, home.reviews.four.quote, home.reviews.one.author, home.reviews.one.quote, home.reviews.three.author, home.reviews.three.quote, home.reviews.two.author, home.reviews.two.quote
 
 ## Embeds and security policy
 

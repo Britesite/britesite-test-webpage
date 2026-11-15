@@ -1,0 +1,38 @@
+{
+  "cakes": {
+    "title": "Lagkager og små selskaber",
+    "lead": "Vi bager lagkager til fødselsdage og andre dage, der skal fejres. Og mangler I et sted at samles, kan I låne vores baglokale på hverdage.",
+    "imageAlt": "Lagkage med flødeskum og friske jordbær på et lyst kagefad, på et træbord ved et vindue",
+    "cake": {
+      "title": "Lagkager",
+      "text": "Vores lagkager er til 10–12 personer, og vi bager dem til den dag, I henter. Bestil senest tre dage før.",
+      "kinds": "[NEEDS: Hvilke lagkager man kan vælge mellem, fx med jordbær, chokolade eller en glutenfri, og om de koster forskelligt]",
+      "price": "Fra 395 kr."
+    },
+    "room": {
+      "title": "Baglokalet",
+      "text": "Baglokalet har plads til 14 og kan lånes på hverdage efter kl. 14. Det passer til fødselsdage, barnedåb og møder.",
+      "price": "[NEEDS: Om det koster noget at låne baglokalet, og i givet fald hvad]",
+      "food": "[NEEDS: Om man kan bestille kaffe, kage eller mad til et selskab i baglokalet, og hvad det koster]"
+    },
+    "howTitle": "Sådan bestiller du",
+    "steps": {
+      "one": {
+        "title": "Ring eller skriv",
+        "text": "Ring i åbningstiden, eller send en mail. Skriv gerne, om det gælder en lagkage, baglokalet eller begge dele."
+      },
+      "two": {
+        "title": "Fortæl os det vigtigste",
+        "text": "Hvor mange I bliver, hvilken dag det gælder, og om nogen har allergier."
+      },
+      "three": {
+        "title": "Vi bekræfter på mail",
+        "text": "Så er aftalen på plads. Lagkagen står klar til at hente på den dag, I har valgt."
+      }
+    },
+    "ctaTitle": "Skal vi bage til jer?",
+    "ctaText": "Ring eller skriv, så finder vi en dag sammen.",
+    "ctaPhone": "Ring {phone}",
+    "ctaEmail": "Skriv en mail"
+  }
+}

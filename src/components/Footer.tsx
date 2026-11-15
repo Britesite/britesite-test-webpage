@@ -5,6 +5,7 @@ import { OpeningHours } from "@/components/OpeningHours";
 
 const FOOTER_LINKS = [
   { href: "/menu", key: "menu" },
+  { href: "/lagkager-og-selskaber", key: "cakes" },
   { href: "/om-os", key: "about" },
   { href: "/kontakt", key: "contact" },
   { href: "/privatlivspolitik", key: "privacy" },

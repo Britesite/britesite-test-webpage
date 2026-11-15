@@ -4,6 +4,7 @@ import { Link } from "@/i18n/routing";
 const NAV_LINKS = [
   { href: "/", key: "home" },
   { href: "/menu", key: "menu" },
+  { href: "/lagkager-og-selskaber", key: "cakes" },
   { href: "/om-os", key: "about" },
   { href: "/kontakt", key: "contact" },
 ] as const;
@@ -31,7 +32,7 @@ export async function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="rounded-[999px] px-4 py-2 text-[1.0625rem] text-neutral-800 transition-colors hover:bg-cream hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="whitespace-nowrap rounded-[999px] px-3 py-2 text-[1.0625rem] lg:px-4 text-neutral-800 transition-colors hover:bg-cream hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   {t(link.key)}
                 </Link>

@@ -25,6 +25,42 @@
     "teamTitle": "Vi er fire",
     "title": "Om Café Lærke"
   },
+  "cakes": {
+    "cake": {
+      "kinds": "[NEEDS: Hvilke lagkager man kan vælge mellem, fx med jordbær, chokolade eller en glutenfri, og om de koster forskelligt]",
+      "price": "Fra 395 kr.",
+      "text": "Vores lagkager er til 10–12 personer, og vi bager dem til den dag, I henter. Bestil senest tre dage før.",
+      "title": "Lagkager"
+    },
+    "ctaEmail": "Skriv en mail",
+    "ctaPhone": "Ring {phone}",
+    "ctaText": "Ring eller skriv, så finder vi en dag sammen.",
+    "ctaTitle": "Skal vi bage til jer?",
+    "howTitle": "Sådan bestiller du",
+    "imageAlt": "Lagkage med flødeskum og friske jordbær på et lyst kagefad, på et træbord ved et vindue",
+    "lead": "Vi bager lagkager til fødselsdage og andre dage, der skal fejres. Og mangler I et sted at samles, kan I låne vores baglokale på hverdage.",
+    "room": {
+      "food": "[NEEDS: Om man kan bestille kaffe, kage eller mad til et selskab i baglokalet, og hvad det koster]",
+      "price": "[NEEDS: Om det koster noget at låne baglokalet, og i givet fald hvad]",
+      "text": "Baglokalet har plads til 14 og kan lånes på hverdage efter kl. 14. Det passer til fødselsdage, barnedåb og møder.",
+      "title": "Baglokalet"
+    },
+    "steps": {
+      "one": {
+        "text": "Ring i åbningstiden, eller send en mail. Skriv gerne, om det gælder en lagkage, baglokalet eller begge dele.",
+        "title": "Ring eller skriv"
+      },
+      "three": {
+        "text": "Så er aftalen på plads. Lagkagen står klar til at hente på den dag, I har valgt.",
+        "title": "Vi bekræfter på mail"
+      },
+      "two": {
+        "text": "Hvor mange I bliver, hvilken dag det gælder, og om nogen har allergier.",
+        "title": "Fortæl os det vigtigste"
+      }
+    },
+    "title": "Lagkager og små selskaber"
+  },
   "contact": {
     "addressTitle": "Adresse",
     "cakePrice": "Lagkage til 10–12 personer fra 395 kr.",
@@ -35,6 +71,7 @@
     "emailTitle": "Mail",
     "lead": "Du behøver ikke bestille bord. Kom forbi, eller ring og skriv, hvis du vil bestille en lagkage eller låne baglokalet.",
     "mapTitle": "Her ligger vi",
+    "partyLink": "Læs mere om lagkager og selskaber",
     "partyText": "Baglokalet har plads til 14. Det kan lånes på hverdage efter kl. 14 til fødselsdage, barnedåb og møder. Skriv, så finder vi en dag.",
     "partyTitle": "Små selskaber",
     "phoneNote": "Vi tager telefonen i åbningstiden.",
@@ -82,6 +119,7 @@
   },
   "header": {
     "about": "Om os",
+    "cakes": "Lagkager og selskaber",
     "contact": "Kontakt",
     "home": "Forside",
     "menu": "Menu",
@@ -328,6 +366,10 @@
     "about": {
       "description": "Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer. Vi bager hver morgen og laver det meste fra bunden. Læs, hvem vi er, og hvordan vi arbejder.",
       "title": "Om os"
+    },
+    "cakes": {
+      "description": "Bestil lagkage til 10–12 personer fra 395 kr. hos Café Lærke i Odense C, eller lån vores baglokale til 14 gæster til fødselsdag, barnedåb eller møde.",
+      "title": "Lagkager og selskaber i Odense"
     },
     "contact": {
       "description": "Find Café Lærke i Odense C. Åbningstider, adresse, telefon og mail. Sådan bestiller du en lagkage, og sådan låner du baglokalet til et lille selskab.",

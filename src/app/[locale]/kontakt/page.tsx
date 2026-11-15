@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { MapFacade } from "@/components/embeds/MapFacade";
 import { OpeningHours } from "@/components/OpeningHours";
+import { Link } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
@@ -81,6 +82,9 @@ export default async function ContactPage({
       <section className="mt-14 max-w-2xl">
         <h2 className="text-4xl text-neutral-950">{t("partyTitle")}</h2>
         <p className="mt-4 text-lg leading-relaxed text-neutral-800">{t("partyText")}</p>
+        <Link href="/lagkager-og-selskaber" className="mt-4 inline-block text-lg font-medium text-accent underline decoration-oak decoration-2 underline-offset-4 hover:decoration-accent">
+          {t("partyLink")}
+        </Link>
       </section>
     </div>
   );

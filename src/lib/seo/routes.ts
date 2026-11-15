@@ -48,6 +48,7 @@ export type StaticRoute = {
 export const STATIC_ROUTES: StaticRoute[] = [
   { path: "", priority: 1.0, changeFrequency: "monthly", metaKey: "home" },
   { path: "/menu", priority: 0.9, changeFrequency: "monthly", metaKey: "menu" },
+  { path: "/lagkager-og-selskaber", priority: 0.8, changeFrequency: "monthly", metaKey: "cakes" },
   { path: "/om-os", priority: 0.6, changeFrequency: "yearly", metaKey: "about" },
   { path: "/kontakt", priority: 0.8, changeFrequency: "yearly", metaKey: "contact" },
   { path: "/privatlivspolitik", priority: 0.2, changeFrequency: "yearly", metaKey: "privacy" },

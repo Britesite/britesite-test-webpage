@@ -106,7 +106,7 @@ export default async function MenuPage({
           <h2 className="text-3xl text-neutral-950">{t("cakeTitle")}</h2>
           <p className="mt-2 text-lg text-neutral-800">{t("cakeText")}</p>
         </div>
-        <Link href="/kontakt#bestil" className="shrink-0 self-start rounded-[999px] bg-accent px-6 py-3 text-lg font-medium text-white hover:bg-accent-dark sm:self-center">
+        <Link href="/lagkager-og-selskaber" className="shrink-0 self-start rounded-[999px] bg-accent px-6 py-3 text-lg font-medium text-white hover:bg-accent-dark sm:self-center">
           {t("cakeLink")}
         </Link>
       </div>
