@@ -45,7 +45,7 @@ export function GET() {
           {"Café Lærke"}
         </div>
         <div style={{ fontSize: 34, marginTop: 28, color: "#a3a3a3" }}>
-          {"Kaffe, kage og en god plads i naturen"}
+          {"Kaffe, kage og en god plads ved vinduet"}
         </div>
       </div>
     ),
