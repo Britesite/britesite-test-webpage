@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { OpeningHours } from "@/components/OpeningHours";
+import { ReviewsCarousel } from "@/components/ReviewsCarousel";
+import { getPlaceholderDescription, isPlaceholder, placeholdersVisible } from "@/lib/placeholder";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
@@ -22,6 +24,12 @@ const OFFER = [
   { key: "lunch", image: "/images/services/frokost.jpg" },
 ] as const;
 
+const REVIEWS = ["one", "two", "three", "four", "five"] as const;
+
+// In Preview a missing review shows its description as plain text so the design reads
+// true; on the live site such cards are filtered out above.
+const reviewText = (text: string) => getPlaceholderDescription(text) ?? text;
+
 const FACTS = ["seats", "glutenFree", "refill", "pay"] as const;
 
 export default async function HomePage({
@@ -33,6 +41,9 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
   const info = await getTranslations("info");
+  // Reviews only show once real ones are supplied; markers are visible in Preview only.
+  const showReviews =
+    placeholdersVisible() || REVIEWS.some((r) => !isPlaceholder(t(`reviews.${r}.quote`)));
 
   return (
     <>
@@ -106,6 +117,22 @@ export default async function HomePage({
           </Link>
         </div>
       </section>
+
+      {showReviews && (
+        <section className="bg-oak/40 py-16 sm:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-cinnamon">{t("reviewsEyebrow")}</p>
+            <h2 className="mt-3 max-w-2xl text-4xl text-neutral-950 sm:text-5xl">{t("reviewsTitle")}</h2>
+            <ReviewsCarousel
+              reviews={REVIEWS.filter((r) => placeholdersVisible() || !isPlaceholder(t(`reviews.${r}.quote`))).map((r) => ({
+                quote: reviewText(t(`reviews.${r}.quote`)),
+                author: reviewText(t(`reviews.${r}.author`)),
+              }))}
+              labels={{ region: t("reviewsTitle"), previous: t("reviewsPrevious"), next: t("reviewsNext") }}
+            />
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="grid items-center gap-0 overflow-hidden md:gap-8 rounded-[20px] border border-oak bg-background md:grid-cols-2">

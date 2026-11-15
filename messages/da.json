@@ -34,6 +34,7 @@
     "emailNote": "Vi svarer inden for en dag.",
     "emailTitle": "Mail",
     "lead": "Du behøver ikke bestille bord. Kom forbi, eller ring og skriv, hvis du vil bestille en lagkage eller låne baglokalet.",
+    "mapTitle": "Her ligger vi",
     "partyText": "Baglokalet har plads til 14. Det kan lånes på hverdage efter kl. 14 til fødselsdage, barnedåb og møder. Skriv, så finder vi en dag.",
     "partyTitle": "Små selskaber",
     "phoneNote": "Vi tager telefonen i åbningstiden.",
@@ -141,6 +142,32 @@
     "offerTitle": "Det kommer man efter",
     "practicalTitle": "Åbent i dag?",
     "practicalWalkIn": "Ingen bordbestilling – bare kom. Er I 6 eller flere, så ring gerne først.",
+    "reviews": {
+      "five": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer en femte anmeldelse. Der er plads til flere, hvis I har dem.]"
+      },
+      "four": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer en fjerde anmeldelse. Når der er flere end tre, begynder de at glide af sig selv.]"
+      },
+      "one": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer en rigtig anmeldelse fra en af jeres gæster, to eller tre sætninger om kaffen, kagen eller stemningen på caféen.]"
+      },
+      "three": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer den tredje anmeldelse. Den erstatter denne tekst, så snart I har et citat og gæstens tilladelse.]"
+      },
+      "two": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer endnu en gæsteanmeldelse i den længde, I selv synes passer, gerne med noget konkret om besøget.]"
+      }
+    },
+    "reviewsEyebrow": "Fra vores gæster",
+    "reviewsNext": "Næste anmeldelse",
+    "reviewsPrevious": "Forrige anmeldelse",
+    "reviewsTitle": "Det siger dem, der sidder ved vinduet",
     "title": "En god plads ved vinduet",
     "weekendAlt": "Bageplade med nybagte kanelsnegle, drysset med mel",
     "weekendLabel": "Lørdag og søndag",
@@ -170,7 +197,7 @@
     "name": "Café Lærke",
     "phone": "01 23 45 67",
     "phoneHref": "tel:+4501234567",
-    "street": "Lærkestræde 3"
+    "street": "Danmarksgade 15"
   },
   "menu": {
     "cakeLink": "Sådan bestiller du",
@@ -349,6 +376,8 @@
     "cookiesText": "Siden gemmer kun det, den skal bruge for at virke. Den bruger ingen statistik- eller marketingcookies og viser derfor ingen cookiebanner. Der er intet at acceptere eller afvise; vil du slette cookien herunder, kan du gøre det i din browsers indstillinger.",
     "cookiesTitle": "Cookies",
     "intro": "Café Lærke er en opdigtet café. Hjemmesiden er en demo, som Britesite har lavet og driver, så det er Britesite, der er ansvarlig for de få oplysninger, siden behandler. Har du spørgsmål, kan du skrive til Britesite på info@britesite.dk.",
+    "maps": "På siden \"Find vej og kontakt\" kan du vælge at vise et kort fra Google Maps. Kortet hentes først, når du klikker på knappen. Så modtager Google din IP-adresse og oplysninger om din browser og kan sætte cookies efter sine egne regler. Klikker du ikke, sendes der intet til Google.",
+    "mapsLink": "Googles privatlivspolitik",
     "processorsLink": "Vercels databehandleraftale",
     "processorsText": "Vercel Inc. hoster siden. Vercel er en amerikansk virksomhed, og oplysningerne kan blive behandlet i USA og andre lande. Overførslen sker på grundlag af Vercels databehandleraftale med EU-Kommissionens standardkontraktbestemmelser.",
     "processorsTitle": "Hvem der behandler oplysningerne",

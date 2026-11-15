@@ -67,6 +67,12 @@ export default async function PrivacyPage({
           </table>
         </div>
         <p className="mt-5 leading-relaxed text-neutral-800">{t("botid")}</p>
+        <p className="mt-5 leading-relaxed text-neutral-800">{t("maps")}</p>
+        <p className="mt-3">
+          <a href="https://policies.google.com/privacy" className="text-accent underline underline-offset-4">
+            {t("mapsLink")}
+          </a>
+        </p>
       </section>
 
       <section className="mt-10">
