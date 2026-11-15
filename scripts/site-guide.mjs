@@ -338,6 +338,29 @@ function extractVoiceHeadings(text) {
   return headings.slice(0, 8);
 }
 
+/** Page → primary search phrase from the site plan's page table (the one with a
+ *  "Primary Keyword" column). Rows with no phrase are left out. */
+export function parsePlanKeywords(md) {
+  const out = [];
+  let col = -1;
+  for (const line of md.split("\n")) {
+    if (!line.trim().startsWith("|")) {
+      col = -1;
+      continue;
+    }
+    const cells = line.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+    if (col === -1) {
+      col = cells.findIndex((c) => /^primary keyword/i.test(c));
+      continue;
+    }
+    if (cells.every((c) => /^:?-+:?$/.test(c))) continue;
+    const page = cells[0];
+    const keyword = cells[col];
+    if (page && keyword && !/^\[?NEEDS/i.test(keyword)) out.push({ page, keyword });
+  }
+  return out;
+}
+
 // ───────────────────────── buildModel (fs) ─────────────────────────
 
 /** Pages listed in the generated `src/mirror/index.ts` (replicate mode). A regex,
@@ -475,7 +498,9 @@ export function buildModel(root) {
   const images = {
     dirs: imageDirs,
     hasSlots: existsSync(join(root, "IMAGE_SLOTS.md")),
-    hasCatalog: existsSync(join(root, "IMAGE_CATALOG.md")),
+    // The crawl and the intake flow both write the catalog next to the
+    // images; a few older sites keep it at the repo root.
+    catalogPath: ["public/images/IMAGE_CATALOG.md", "IMAGE_CATALOG.md"].find((p) => existsSync(join(root, p))) ?? null,
     hasRequests: existsSync(join(root, "public", "images", "IMAGE_REQUESTS.md")),
   };
 
@@ -499,7 +524,7 @@ export function buildModel(root) {
   // details live there), the redirects list and CSP allowances.
   const doNotTouchCandidates = [
     ["src/lib/contact/", "external delivery configuration is separate from ordinary content edits"],
-    ["src/lib/seo/", "except routes.ts (page registry) and structured-data.ts (business details)"],
+    ["src/lib/seo/", "except routes.ts (page registry) and structured-data.ts (business details on older sites; newer ones keep them in SITE_BUSINESS in src/lib/site-config.ts)"],
     ["src/i18n/", "locale wiring"],
     ["scripts/", "pipeline tooling"],
     [".github/", "blocked at push time anyway"],
@@ -510,6 +535,30 @@ export function buildModel(root) {
   const doNotTouch = doNotTouchCandidates
     .filter(([p]) => existsSync(join(root, p)))
     .map(([path, note]) => ({ path, note }));
+
+  // Search: how Google shows each page, and the search phrases the plan chose
+  const search = { pages: [], keywords: [], business: null };
+  const primaryMessages = (() => {
+    try {
+      return JSON.parse(readFileSync(join(root, "messages", `${defaultLocale}.json`), "utf8"));
+    } catch {
+      return null;
+    }
+  })();
+  if (!mirror.pages.length && primaryMessages) {
+    for (const r of staticRoutes) {
+      if (r.noindex) continue;
+      const entry = r.metaKey.split(".").reduce((o, k) => (o && typeof o === "object" ? o[k] : undefined), primaryMessages.meta);
+      search.pages.push({ url: r.path || "/", metaKey: r.metaKey, title: entry?.title ?? null, description: entry?.description ?? null });
+    }
+  }
+  const planPath = ["SITE_PLAN.md", "SITE_PLAN_TEMPLATE.md"].map((f) => join(root, f)).find((f) => existsSync(f));
+  if (planPath) search.keywords = parsePlanKeywords(readFileSync(planPath, "utf8"));
+  const siteConfigPath = join(root, "src", "lib", "site-config.ts");
+  if (existsSync(siteConfigPath)) {
+    const cfg = readFileSync(siteConfigPath, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+    if (/\bSITE_BUSINESS\b/.test(cfg)) search.business = /\bSITE_BUSINESS\b[^=]*=\s*null\b/.test(cfg) ? "empty" : "filled";
+  }
 
   // Voice
   const voice = [];
@@ -542,6 +591,7 @@ export function buildModel(root) {
     doNotTouch,
     voice,
     mirror,
+    search,
   };
 }
 
@@ -628,6 +678,40 @@ export function renderGuide(model) {
     for (const p of model.registryDrift.fileOnly) lines.push(`- page file but not registered: \`${p}\``);
   }
   lines.push("");
+
+  // 2b. Search
+  const search = model.search ?? { pages: [], keywords: [], business: null };
+  if (search.pages.length || search.keywords.length || search.business) {
+    lines.push("## Search (how Google shows each page)");
+    lines.push("");
+    if (search.pages.length) {
+      lines.push(`Titles and descriptions in \`messages/${model.defaultLocale}.json\` under \`meta.<key>\`, in every language. \`npm run check\` (its seo step) judges them.`);
+      lines.push("");
+      lines.push(tableRow(["URL", "Meta key", "Title", "Description"]));
+      lines.push(tableRow(["---", "---", "---", "---"]));
+      for (const p of search.pages) {
+        const desc = p.description ? `${p.description} (${p.description.length})` : "—";
+        // A title often carries " | Brand", which would split the table cell.
+        const cell = (v) => String(v).replace(/\|/g, "\\|");
+        lines.push(tableRow([p.url, p.metaKey, cell(p.title ?? "—"), cell(desc)]));
+      }
+      lines.push("");
+    }
+    if (search.keywords.length) {
+      lines.push("Primary search phrase per page, from the site plan:");
+      lines.push("");
+      for (const k of search.keywords) lines.push(`- ${k.page}: ${k.keyword}`);
+      lines.push("");
+    }
+    if (search.business) {
+      lines.push(
+        search.business === "filled"
+          ? "Business facts for search results (address, phone, opening hours): `SITE_BUSINESS` in `src/lib/site-config.ts`. Change them there too whenever the visible ones change."
+          : "Business facts for search results: `SITE_BUSINESS` in `src/lib/site-config.ts` is empty, so search engines get no address, phone or opening hours from the structured data.",
+      );
+      lines.push("");
+    }
+  }
 
   // 3. Navigation
   lines.push(heading(3, "Navigation"));
@@ -716,7 +800,7 @@ export function renderGuide(model) {
   }
   lines.push("");
   lines.push(
-    `IMAGE_SLOTS.md: ${model.images.hasSlots ? "present" : "absent"}. IMAGE_CATALOG.md: ${model.images.hasCatalog ? "present" : "absent"}. IMAGE_REQUESTS.md: ${model.images.hasRequests ? "present" : "absent"}.`,
+    `IMAGE_SLOTS.md: ${model.images.hasSlots ? "present" : "absent"}. IMAGE_CATALOG.md: ${model.images.catalogPath ? `present (\`${model.images.catalogPath}\`)` : "absent"}. IMAGE_REQUESTS.md: ${model.images.hasRequests ? "present" : "absent"}.`,
   );
   lines.push("");
   lines.push(

@@ -19,6 +19,20 @@ Primary locale: `da`. Locales: `da`.
 
 none found
 
+## Search (how Google shows each page)
+
+Titles and descriptions in `messages/da.json` under `meta.<key>`, in every language. `npm run check` (its seo step) judges them.
+
+| URL | Meta key | Title | Description |
+| --- | --- | --- | --- |
+| / | home | Café Lærke – kvartercafé med morgenmad og kage i Odense | Kvartercafé i Odense C med morgenmad, frokost og kage, vi har bagt samme morgen. Kaffe med fri påfyldning. Åbent tirsdag til søndag, ingen bordbestilling. (154) |
+| /menu | menu | Menu og priser | Morgenmad, frokost, kage og kaffe hos Café Lærke i Odense. Alt bagt samme morgen, altid noget glutenfrit og noget vegansk. Se hele menuen med priser. (149) |
+| /om-os | about | Om os | Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer. Vi bager hver morgen og laver det meste fra bunden. Læs, hvem vi er, og hvordan vi arbejder. (154) |
+| /kontakt | contact | Find vej og kontakt | Find Café Lærke i Odense C. Åbningstider, adresse, telefon og mail. Sådan bestiller du en lagkage, og sådan låner du baglokalet til et lille selskab. (149) |
+| /privatlivspolitik | privacy | Privatlivspolitik | Sådan behandler Café Lærkes demo-hjemmeside oplysninger om dig: hvad der logges, hvorfor, hvor længe, og hvilke rettigheder du har. (131) |
+
+Business facts for search results: `SITE_BUSINESS` in `src/lib/site-config.ts` is empty, so search engines get no address, phone or opening hours from the structured data.
+
 ## Navigation
 
 - `FOOTER_LINKS` — `src/components/Footer.tsx:6–11` — /menu, /om-os, /kontakt, /privatlivspolitik
@@ -44,14 +58,15 @@ Rule: a fix in one language changes only that language; a meaning change updates
 | email | `a@b.dk` | `src/lib/mirror/form-script.test.ts:92` |
 | email | `ana@example.com` | `src/lib/contact/process-contact.test.ts:5`, `src/lib/contact/record-enquiry.test.ts:38` |
 | email | `forms@example.com` | `src/lib/contact/process-contact.test.ts:42` |
-| email | `hej@cafelaerke.example` | `messages/da.json:152`, `messages/da.json:153`, `messages/da/_base.json:53`, `messages/da/_base.json:54` |
+| email | `hej@cafelaerke.example` | `messages/da.json:179`, `messages/da.json:180`, `messages/da/_base.json:53`, `messages/da/_base.json:54` |
+| email | `info@britesite.dk` | `messages/da.json:378`, `messages/da.json:386`, `messages/da/_routes/privacy.json:35`, `messages/da/_routes/privacy.json:5` |
 | email | `mail@mkmurerne.dk` | `src/lib/mirror/head.test.ts:129` |
-| email | `map@1x.webp` | `src/components/embeds/MapFacade.tsx:27` |
-| email | `map@2x.webp` | `src/components/embeds/MapFacade.tsx:27` |
+| email | `map@1x.webp` | `src/components/embeds/MapFacade.tsx:30` |
+| email | `map@2x.webp` | `src/components/embeds/MapFacade.tsx:30` |
 | email | `ole@example.dk` | `src/lib/mirror/form-script.test.ts:63`, `src/lib/mirror/form-script.test.ts:73` |
 | email | `owner@example.com` | `src/lib/contact/process-contact.test.ts:41` |
 | email | `user@app.example.com` | `src/lib/selection/config.test.ts:28` |
-| phone | `+4501234567` | `messages/da.json:172`, `messages/da/_base.json:73` |
+| phone | `+4501234567` | `messages/da.json:199`, `messages/da/_base.json:73` |
 | phone | `+4522937053` | `src/lib/mirror/head.test.ts:129` |
 | phone | `+4526239929` | `src/lib/mirror/head.test.ts:138`, `src/lib/mirror/head.test.ts:146` |
 
@@ -72,16 +87,13 @@ none — content lives in the message files
 - `public/images/services/` — 5 file(s)
 - `public/images/team/` — 1 file(s)
 
-IMAGE_SLOTS.md: present. IMAGE_CATALOG.md: absent. IMAGE_REQUESTS.md: present.
+IMAGE_SLOTS.md: present. IMAGE_CATALOG.md: present (`public/images/IMAGE_CATALOG.md`). IMAGE_REQUESTS.md: present.
 
 Rule: new images go under the matching role dir, descriptive kebab-case names, ≤2000px long edge, and add/adjust the catalog row when the catalog exists.
 
 ## Open content markers
 
-- da: 0 marker(s)
-
-Source files:
-- `src/app/llms.txt/route.ts:42`
+- da: 10 marker(s) — home.reviews.five.author, home.reviews.five.quote, home.reviews.four.author, home.reviews.four.quote, home.reviews.one.author, home.reviews.one.quote, home.reviews.three.author, home.reviews.three.quote, home.reviews.two.author, home.reviews.two.quote
 
 ## Embeds and security policy
 
@@ -115,7 +127,7 @@ Rule: removing a page needs a redirect + registry + nav removal.
 ## Do not touch
 
 - `src/lib/contact/` — external delivery configuration is separate from ordinary content edits
-- `src/lib/seo/` — except routes.ts (page registry) and structured-data.ts (business details)
+- `src/lib/seo/` — except routes.ts (page registry) and structured-data.ts (business details on older sites; newer ones keep them in SITE_BUSINESS in src/lib/site-config.ts)
 - `src/i18n/` — locale wiring
 - `scripts/` — pipeline tooling
 - `.github/` — blocked at push time anyway

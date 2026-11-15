@@ -18,6 +18,7 @@ import {
   parseCsp,
   renderGuide,
   parseMirrorIndex,
+  buildModel,
 } from "./site-guide.mjs";
 
 function tmpDir(prefix) {
@@ -218,7 +219,7 @@ function minimalModel(overrides = {}) {
     translations: { hasFragments: false, clientNamespaces: [] },
     contacts: [],
     dataFiles: null,
-    images: { dirs: [], hasSlots: false, hasCatalog: false, hasRequests: false },
+    images: { dirs: [], hasSlots: false, catalogPath: null, hasRequests: false },
     markers: { perLocale: {}, keys: {}, sources: [] },
     csp: { directives: {} },
     redirects: { hasRedirectsDoc: false, sourceCount: 0 },
@@ -277,6 +278,25 @@ test("cli: writes SITE_GUIDE.md for a fixture tree; --check exits 1 when stale a
   }
 });
 
+test("buildModel finds IMAGE_CATALOG.md in public/images, where the crawl and intake write it, and still at the repo root", () => {
+  const dir = tmpDir("site-guide-catalog-");
+  try {
+    write(dir, "src/i18n/routing.ts", "locales: ['da'],\ndefaultLocale: 'da'\n");
+    write(dir, "messages/da.json", JSON.stringify({ a: "1" }));
+    assert.equal(buildModel(dir).images.catalogPath, null);
+
+    write(dir, "public/images/IMAGE_CATALOG.md", "# Image Catalog\n");
+    assert.equal(buildModel(dir).images.catalogPath, "public/images/IMAGE_CATALOG.md");
+    assert.match(renderGuide(buildModel(dir)), /IMAGE_CATALOG\.md: present \(`public\/images\/IMAGE_CATALOG\.md`\)/);
+
+    rmSync(join(dir, "public/images/IMAGE_CATALOG.md"));
+    write(dir, "IMAGE_CATALOG.md", "# Image Catalog\n");
+    assert.equal(buildModel(dir).images.catalogPath, "IMAGE_CATALOG.md");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test("parseMirrorIndex reads path, locale and file from the generated mirror index", () => {
   const src = `export const MIRROR_PAGES: MirrorPage[] = [
   { "path": "/", "locale": "da", "alternates": { "da": "/" }, "title": "Home", "description": "", "file": "src/mirror/pages/index.html" },
@@ -302,4 +322,20 @@ test("renderGuide documents mirrored pages with their files and the editing rule
   assert.match(out, /MIRROR_REDIRECTS/);
   assert.match(out, /Do not re-run `scripts\/mirror-install\.mjs` for routine owner edits/);
   assert.doesNotMatch(renderGuide(minimalModel()), /## Mirrored pages/);
+});
+
+test("parsePlanKeywords reads page → primary search phrase from the plan's page table and skips empty rows", async () => {
+  const { parsePlanKeywords } = await import("./site-guide.mjs");
+  const md = "| Page | Priority | Status | Primary Keyword | Primary CTA |\n|------|---|---|---|---|\n| Homepage | P0 | DONE | café odense | Book bord |\n| About | P1 | TODO | | |\n\n| Cluster | Keywords |\n|---|---|\n| Core | x |\n";
+  assert.deepEqual(parsePlanKeywords(md), [{ page: "Homepage", keyword: "café odense" }]);
+});
+
+test("renderGuide lists each page's search title and description, escaping a pipe in the title", () => {
+  const model = buildModel(process.cwd());
+  model.search = { pages: [{ url: "/", metaKey: "home", title: "Kaffe | Café Lærke", description: "Beskrivelse" }], keywords: [{ page: "Homepage", keyword: "café odense" }], business: "empty" };
+  const md = renderGuide(model);
+  assert.match(md, /## Search \(how Google shows each page\)/);
+  assert.match(md, /\| \/ \| home \| Kaffe \\\| Café Lærke \| Beskrivelse \(11\) \|/);
+  assert.match(md, /- Homepage: café odense/);
+  assert.match(md, /SITE_BUSINESS` in `src\/lib\/site-config\.ts` is empty/);
 });
