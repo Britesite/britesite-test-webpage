@@ -71,7 +71,6 @@ export default async function ContactPage({
         <h2 className="text-4xl text-neutral-950">{t("mapTitle")}</h2>
         <MapFacade
           address={`${info("street")}, ${info("city")}`}
-          query={`${info("name")}, ${info("street")}, ${info("city")}`}
           image={null}
           interactive
           policyHref="/privatlivspolitik"
