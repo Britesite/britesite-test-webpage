@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "head": "3d8202baac6741a27eb8d6ada63d0f78fba64168",
+  "pages": [
+    {
+      "path": "/lagkager-og-selskaber",
+      "file": "pages/0.html"
+    },
+    {
+      "path": "/",
+      "file": "pages/1.html"
+    },
+    {
+      "path": "/kontakt",
+      "file": "pages/2.html"
+    },
+    {
+      "path": "/menu",
+      "file": "pages/3.html"
+    }
+  ]
+}
