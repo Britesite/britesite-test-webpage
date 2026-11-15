@@ -30,7 +30,8 @@
       },
       "link": "Se hele menuen"
     },
-    "reviewsTitle": "Det siger gæsterne",
+    "reviewsEyebrow": "Fra vores gæster",
+    "reviewsTitle": "Det siger dem, der sidder ved vinduet",
     "reviews": {
       "one": {
         "quote": "[NEEDS: Her kommer en rigtig anmeldelse fra en af jeres gæster, to eller tre sætninger om kaffen, kagen eller stemningen på caféen.]",
