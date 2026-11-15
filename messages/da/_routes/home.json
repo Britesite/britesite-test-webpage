@@ -32,6 +32,8 @@
     },
     "reviewsEyebrow": "Fra vores gæster",
     "reviewsTitle": "Det siger dem, der sidder ved vinduet",
+    "reviewsPrevious": "Forrige anmeldelse",
+    "reviewsNext": "Næste anmeldelse",
     "reviews": {
       "one": {
         "quote": "[NEEDS: Her kommer en rigtig anmeldelse fra en af jeres gæster, to eller tre sætninger om kaffen, kagen eller stemningen på caféen.]",
@@ -39,6 +41,14 @@
       },
       "two": {
         "quote": "[NEEDS: Her kommer endnu en gæsteanmeldelse i den længde, I selv synes passer, gerne med noget konkret om besøget.]",
+        "author": "[NEEDS: Gæstens fornavn]"
+      },
+      "four": {
+        "quote": "[NEEDS: Her kommer en fjerde anmeldelse. Når der er flere end tre, begynder de at glide af sig selv.]",
+        "author": "[NEEDS: Gæstens fornavn]"
+      },
+      "five": {
+        "quote": "[NEEDS: Her kommer en femte anmeldelse. Der er plads til flere, hvis I har dem.]",
         "author": "[NEEDS: Gæstens fornavn]"
       },
       "three": {

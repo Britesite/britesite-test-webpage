@@ -142,6 +142,14 @@
     "practicalTitle": "Åbent i dag?",
     "practicalWalkIn": "Ingen bordbestilling – bare kom. Er I 6 eller flere, så ring gerne først.",
     "reviews": {
+      "five": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer en femte anmeldelse. Der er plads til flere, hvis I har dem.]"
+      },
+      "four": {
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer en fjerde anmeldelse. Når der er flere end tre, begynder de at glide af sig selv.]"
+      },
       "one": {
         "author": "[NEEDS: Gæstens fornavn]",
         "quote": "[NEEDS: Her kommer en rigtig anmeldelse fra en af jeres gæster, to eller tre sætninger om kaffen, kagen eller stemningen på caféen.]"
@@ -156,6 +164,8 @@
       }
     },
     "reviewsEyebrow": "Fra vores gæster",
+    "reviewsNext": "Næste anmeldelse",
+    "reviewsPrevious": "Forrige anmeldelse",
     "reviewsTitle": "Det siger dem, der sidder ved vinduet",
     "title": "En god plads ved vinduet",
     "weekendAlt": "Bageplade med nybagte kanelsnegle, drysset med mel",

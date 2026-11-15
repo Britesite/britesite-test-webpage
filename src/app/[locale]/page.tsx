@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { OpeningHours } from "@/components/OpeningHours";
+import { ReviewsCarousel } from "@/components/ReviewsCarousel";
 import { getPlaceholderDescription, isPlaceholder, placeholdersVisible } from "@/lib/placeholder";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -23,7 +24,7 @@ const OFFER = [
   { key: "lunch", image: "/images/services/frokost.jpg" },
 ] as const;
 
-const REVIEWS = ["one", "two", "three"] as const;
+const REVIEWS = ["one", "two", "three", "four", "five"] as const;
 
 // In Preview a missing review shows its description as plain text so the design reads
 // true; on the live site such cards are filtered out above.
@@ -122,42 +123,13 @@ export default async function HomePage({
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-cinnamon">{t("reviewsEyebrow")}</p>
             <h2 className="mt-3 max-w-2xl text-4xl text-neutral-950 sm:text-5xl">{t("reviewsTitle")}</h2>
-            <ul className="mt-12 grid gap-8 md:grid-cols-3 md:items-start">
-              {REVIEWS.filter((r) => placeholdersVisible() || !isPlaceholder(t(`reviews.${r}.quote`))).map((r, i) => (
-                <li key={r} className={i === 1 ? "md:mt-10" : i === 2 ? "md:mt-20" : ""}>
-                  <figure
-                    className={`relative flex h-full flex-col overflow-hidden rounded-[20px] p-7 pt-14 shadow-[0_12px_30px_-18px_rgba(43,37,32,0.45)] sm:p-9 sm:pt-16 ${
-                      i === 1 ? "bg-accent text-white" : "border border-oak bg-background text-neutral-900"
-                    }`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={`absolute left-6 top-0 select-none font-display text-[7rem] leading-none sm:left-8 ${
-                        i === 1 ? "text-white/25" : "text-cinnamon/30"
-                      }`}
-                    >
-                      &ldquo;
-                    </span>
-                    <blockquote className="font-display text-xl leading-snug sm:text-2xl">
-                      <p>{reviewText(t(`reviews.${r}.quote`))}</p>
-                    </blockquote>
-                    <figcaption className="mt-7 flex items-center gap-3">
-                      <span
-                        aria-hidden="true"
-                        className={`flex h-11 w-11 items-center justify-center rounded-[999px] text-lg font-semibold ${
-                          i === 1 ? "bg-background text-accent" : "bg-accent text-white"
-                        }`}
-                      >
-                        {reviewText(t(`reviews.${r}.author`)).replace(/^Gæstens\s+/i, "").charAt(0).toUpperCase()}
-                      </span>
-                      <span className={`font-medium ${i === 1 ? "text-white" : "text-neutral-800"}`}>
-                        {reviewText(t(`reviews.${r}.author`))}
-                      </span>
-                    </figcaption>
-                  </figure>
-                </li>
-              ))}
-            </ul>
+            <ReviewsCarousel
+              reviews={REVIEWS.filter((r) => placeholdersVisible() || !isPlaceholder(t(`reviews.${r}.quote`))).map((r) => ({
+                quote: reviewText(t(`reviews.${r}.quote`)),
+                author: reviewText(t(`reviews.${r}.author`)),
+              }))}
+              labels={{ region: t("reviewsTitle"), previous: t("reviewsPrevious"), next: t("reviewsNext") }}
+            />
           </div>
         </section>
       )}
