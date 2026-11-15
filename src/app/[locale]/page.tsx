@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { OpeningHours } from "@/components/OpeningHours";
+import { Placeholder } from "@/components/Placeholder";
+import { isPlaceholder, placeholdersVisible } from "@/lib/placeholder";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
@@ -22,6 +24,8 @@ const OFFER = [
   { key: "lunch", image: "/images/services/frokost.jpg" },
 ] as const;
 
+const REVIEWS = ["one", "two", "three"] as const;
+
 const FACTS = ["seats", "glutenFree", "refill", "pay"] as const;
 
 export default async function HomePage({
@@ -33,6 +37,9 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
   const info = await getTranslations("info");
+  // Reviews only show once real ones are supplied; markers are visible in Preview only.
+  const showReviews =
+    placeholdersVisible() || REVIEWS.some((r) => !isPlaceholder(t(`reviews.${r}.quote`)));
 
   return (
     <>
@@ -106,6 +113,26 @@ export default async function HomePage({
           </Link>
         </div>
       </section>
+
+      {showReviews && (
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <h2 className="text-4xl text-neutral-950 sm:text-5xl">{t("reviewsTitle")}</h2>
+          <ul className="mt-10 grid gap-6 md:grid-cols-3">
+            {REVIEWS.filter((r) => placeholdersVisible() || !isPlaceholder(t(`reviews.${r}.quote`))).map((r) => (
+              <li key={r}>
+                <figure className="flex h-full flex-col rounded-2xl border border-oak bg-cream p-6 sm:p-8">
+                  <blockquote className="text-lg leading-relaxed text-neutral-900">
+                    <Placeholder as="p" text={t(`reviews.${r}.quote`)} />
+                  </blockquote>
+                  <figcaption className="mt-5 border-t border-oak pt-4 font-medium text-neutral-700">
+                    <Placeholder text={t(`reviews.${r}.author`)} />
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="grid items-center gap-0 overflow-hidden md:gap-8 rounded-[20px] border border-oak bg-background md:grid-cols-2">

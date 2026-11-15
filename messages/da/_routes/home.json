@@ -30,6 +30,21 @@
       },
       "link": "Se hele menuen"
     },
+    "reviewsTitle": "Det siger gæsterne",
+    "reviews": {
+      "one": {
+        "quote": "[NEEDS: Første kundeanmeldelse, ordret fra gæsten]",
+        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]"
+      },
+      "two": {
+        "quote": "[NEEDS: Anden kundeanmeldelse, ordret fra gæsten]",
+        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]"
+      },
+      "three": {
+        "quote": "[NEEDS: Tredje kundeanmeldelse, ordret fra gæsten]",
+        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]"
+      }
+    },
     "weekendLabel": "Lørdag og søndag",
     "weekendTitle": "Kanelsnegle fra ovnen kl. 9",
     "weekendText": "Vi bager dem fra bunden hver weekendmorgen, med smør, kanel og lidt kardemomme. Når de er væk, er de væk – som regel ved middagstid.",

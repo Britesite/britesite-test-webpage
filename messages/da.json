@@ -141,6 +141,21 @@
     "offerTitle": "Det kommer man efter",
     "practicalTitle": "Åbent i dag?",
     "practicalWalkIn": "Ingen bordbestilling – bare kom. Er I 6 eller flere, så ring gerne først.",
+    "reviews": {
+      "one": {
+        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]",
+        "quote": "[NEEDS: Første kundeanmeldelse, ordret fra gæsten]"
+      },
+      "three": {
+        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]",
+        "quote": "[NEEDS: Tredje kundeanmeldelse, ordret fra gæsten]"
+      },
+      "two": {
+        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]",
+        "quote": "[NEEDS: Anden kundeanmeldelse, ordret fra gæsten]"
+      }
+    },
+    "reviewsTitle": "Det siger gæsterne",
     "title": "En god plads ved vinduet",
     "weekendAlt": "Bageplade med nybagte kanelsnegle, drysset med mel",
     "weekendLabel": "Lørdag og søndag",
