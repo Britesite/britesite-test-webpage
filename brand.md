@@ -27,7 +27,7 @@ There is no old site: no crawl, no URL inventory, no redirects and no old-site s
 - **Company form:** none (fictional); a real café would usually be an ENK or ApS
 - **Location:** Odense C *(demo fiction)*
 - **Service area:** Kunderne kommer til os — Odense C *(intake, 2026-11-14)*
-- **Postal address:** Lærkestræde 3, 5000 Odense C *(demo fiction; not checked against any real address — the demo strip covers it)* (customers come to the business, so the address belongs on the site)
+- **Postal address:** Danmarksgade 15, 5000 Odense C *(given by the owner)* (customers come to the business, so the address belongs on the site)
 - **Phone:** 01 23 45 67 *(intake, 2026-11-14)*
 - **Email:** hej@cafelaerke.example *(intake, 2026-11-14)*
 - **Opening hours:** Tirsdag til fredag 8–17, lørdag og søndag 9–16, lukket mandag *(intake, 2026-11-14)*
