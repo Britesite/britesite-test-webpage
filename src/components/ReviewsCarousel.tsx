@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 
 type Review = { quote: string; author: string };
 
@@ -10,24 +10,29 @@ type Props = {
 };
 
 const AUTO_MS = 5500;
+const EDGE_MS = 1100;
 
 export function ReviewsCarousel({ reviews, labels }: Props) {
   const track = useRef<HTMLUListElement>(null);
   const [overflowing, setOverflowing] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [edge, setEdge] = useState<-1 | 0 | 1>(0);
 
   const measure = useCallback(() => {
     const el = track.current;
     if (el) setOverflowing(el.scrollWidth > el.clientWidth + 4);
   }, []);
 
-  const step = useCallback((dir: 1 | -1) => {
+  const step = useCallback((dir: 1 | -1, wrap = true) => {
     const el = track.current;
     if (!el) return;
     const card = el.firstElementChild as HTMLElement | null;
     const width = card ? card.offsetWidth + 32 : el.clientWidth;
     const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
     const atStart = el.scrollLeft <= 4;
+    if ((dir === 1 && atEnd) || (dir === -1 && atStart)) {
+      if (!wrap) return;
+    }
     if (dir === 1 && atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
     else if (dir === -1 && atStart) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
     else el.scrollBy({ left: dir * width, behavior: "smooth" });
@@ -46,6 +51,22 @@ export function ReviewsCarousel({ reviews, labels }: Props) {
     return () => window.clearInterval(id);
   }, [overflowing, paused, step]);
 
+  useEffect(() => {
+    if (!overflowing || edge === 0) return;
+    step(edge, false);
+    const id = window.setInterval(() => step(edge, false), EDGE_MS);
+    return () => window.clearInterval(id);
+  }, [overflowing, edge, step]);
+
+  const onTrackMouseMove = (e: MouseEvent<HTMLUListElement>) => {
+    if (!overflowing || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const zone = Math.min(140, rect.width * 0.15);
+    const dir = x < zone ? -1 : x > rect.width - zone ? 1 : 0;
+    if (dir !== edge) setEdge(dir);
+  };
+
   const buttonClass =
     "flex h-12 w-12 items-center justify-center rounded-[999px] border border-accent text-accent transition-colors hover:bg-accent hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
@@ -62,7 +83,9 @@ export function ReviewsCarousel({ reviews, labels }: Props) {
     >
       <ul
         ref={track}
-        className="-mx-4 mt-12 flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden"
+        onMouseMove={onTrackMouseMove}
+        onMouseLeave={() => setEdge(0)}
+        className={`${edge === -1 ? "cursor-w-resize " : edge === 1 ? "cursor-e-resize " : ""}-mx-4 mt-12 flex snap-x snap-mandatory gap-8 overflow-x-auto px-4 pb-8 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden`}
       >
         {reviews.map((review, i) => {
           const featured = i % 3 === 1;
