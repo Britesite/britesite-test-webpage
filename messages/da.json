@@ -143,16 +143,16 @@
     "practicalWalkIn": "Ingen bordbestilling – bare kom. Er I 6 eller flere, så ring gerne først.",
     "reviews": {
       "one": {
-        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]",
-        "quote": "[NEEDS: Første kundeanmeldelse, ordret fra gæsten]"
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer en rigtig anmeldelse fra en af jeres gæster, to eller tre sætninger om kaffen, kagen eller stemningen på caféen.]"
       },
       "three": {
-        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]",
-        "quote": "[NEEDS: Tredje kundeanmeldelse, ordret fra gæsten]"
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer den tredje anmeldelse. Den erstatter denne tekst, så snart I har et citat og gæstens tilladelse.]"
       },
       "two": {
-        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]",
-        "quote": "[NEEDS: Anden kundeanmeldelse, ordret fra gæsten]"
+        "author": "[NEEDS: Gæstens fornavn]",
+        "quote": "[NEEDS: Her kommer endnu en gæsteanmeldelse i den længde, I selv synes passer, gerne med noget konkret om besøget.]"
       }
     },
     "reviewsTitle": "Det siger gæsterne",

@@ -33,16 +33,16 @@
     "reviewsTitle": "Det siger gæsterne",
     "reviews": {
       "one": {
-        "quote": "[NEEDS: Første kundeanmeldelse, ordret fra gæsten]",
-        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]"
+        "quote": "[NEEDS: Her kommer en rigtig anmeldelse fra en af jeres gæster, to eller tre sætninger om kaffen, kagen eller stemningen på caféen.]",
+        "author": "[NEEDS: Gæstens fornavn]"
       },
       "two": {
-        "quote": "[NEEDS: Anden kundeanmeldelse, ordret fra gæsten]",
-        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]"
+        "quote": "[NEEDS: Her kommer endnu en gæsteanmeldelse i den længde, I selv synes passer, gerne med noget konkret om besøget.]",
+        "author": "[NEEDS: Gæstens fornavn]"
       },
       "three": {
-        "quote": "[NEEDS: Tredje kundeanmeldelse, ordret fra gæsten]",
-        "author": "[NEEDS: Hvordan gæsten skal stå, fx fornavn]"
+        "quote": "[NEEDS: Her kommer den tredje anmeldelse. Den erstatter denne tekst, så snart I har et citat og gæstens tilladelse.]",
+        "author": "[NEEDS: Gæstens fornavn]"
       }
     },
     "weekendLabel": "Lørdag og søndag",

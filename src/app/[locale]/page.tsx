@@ -3,8 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { OpeningHours } from "@/components/OpeningHours";
-import { Placeholder } from "@/components/Placeholder";
-import { isPlaceholder, placeholdersVisible } from "@/lib/placeholder";
+import { getPlaceholderDescription, isPlaceholder, placeholdersVisible } from "@/lib/placeholder";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
@@ -25,6 +24,10 @@ const OFFER = [
 ] as const;
 
 const REVIEWS = ["one", "two", "three"] as const;
+
+// In Preview a missing review shows its description as plain text so the design reads
+// true; on the live site such cards are filtered out above.
+const reviewText = (text: string) => getPlaceholderDescription(text) ?? text;
 
 const FACTS = ["seats", "glutenFree", "refill", "pay"] as const;
 
@@ -122,10 +125,10 @@ export default async function HomePage({
               <li key={r}>
                 <figure className="flex h-full flex-col rounded-2xl border border-oak bg-cream p-6 sm:p-8">
                   <blockquote className="text-lg leading-relaxed text-neutral-900">
-                    <Placeholder as="p" text={t(`reviews.${r}.quote`)} />
+                    <p>{reviewText(t(`reviews.${r}.quote`))}</p>
                   </blockquote>
                   <figcaption className="mt-5 border-t border-oak pt-4 font-medium text-neutral-700">
-                    <Placeholder text={t(`reviews.${r}.author`)} />
+                    {reviewText(t(`reviews.${r}.author`))}
                   </figcaption>
                 </figure>
               </li>
