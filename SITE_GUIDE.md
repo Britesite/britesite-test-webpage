@@ -20,6 +20,21 @@ Primary locale: `da`. Locales: `da`.
 
 none found
 
+## Search (how Google shows each page)
+
+Titles and descriptions in `messages/da.json` under `meta.<key>`, in every language. `npm run check` (its seo step) judges them.
+
+| URL | Meta key | Title | Description |
+| --- | --- | --- | --- |
+| / | home | Café Lærke – kvartercafé med morgenmad og kage i Odense | Kvartercafé i Odense C med morgenmad, frokost og kage, vi har bagt samme morgen. Kaffe med fri påfyldning. Åbent tirsdag til søndag, ingen bordbestilling. (154) |
+| /menu | menu | Menu og priser | Morgenmad, frokost, kage og kaffe hos Café Lærke i Odense. Alt bagt samme morgen, altid noget glutenfrit og noget vegansk. Se hele menuen med priser. (149) |
+| /lagkager-og-selskaber | cakes | Lagkager og selskaber i Odense | Bestil lagkage til 10–12 personer fra 395 kr. hos Café Lærke i Odense C, eller lån vores baglokale til 14 gæster til fødselsdag, barnedåb eller møde. (149) |
+| /om-os | about | Om os | Café Lærke åbnede i 2020 i et hjørnelokale med store vinduer. Vi bager hver morgen og laver det meste fra bunden. Læs, hvem vi er, og hvordan vi arbejder. (154) |
+| /kontakt | contact | Find vej og kontakt | Find Café Lærke i Odense C. Åbningstider, adresse, telefon og mail. Sådan bestiller du en lagkage, og sådan låner du baglokalet til et lille selskab. (149) |
+| /privatlivspolitik | privacy | Privatlivspolitik | Sådan behandler Café Lærkes demo-hjemmeside oplysninger om dig: hvad der logges, hvorfor, hvor længe, og hvilke rettigheder du har. (131) |
+
+Business facts for search results: `SITE_BUSINESS` in `src/lib/site-config.ts` is empty, so search engines get no address, phone or opening hours from the structured data.
+
 ## Navigation
 
 - `FOOTER_LINKS` — `src/components/Footer.tsx:6–12` — /menu, /lagkager-og-selskaber, /om-os, /kontakt, /privatlivspolitik
@@ -74,7 +89,7 @@ none — content lives in the message files
 - `public/images/services/` — 6 file(s)
 - `public/images/team/` — 1 file(s)
 
-IMAGE_SLOTS.md: present. IMAGE_CATALOG.md: absent. IMAGE_REQUESTS.md: present.
+IMAGE_SLOTS.md: present. IMAGE_CATALOG.md: present (`public/images/IMAGE_CATALOG.md`). IMAGE_REQUESTS.md: present.
 
 Rule: new images go under the matching role dir, descriptive kebab-case names, ≤2000px long edge, and add/adjust the catalog row when the catalog exists.
 
@@ -114,7 +129,7 @@ Rule: removing a page needs a redirect + registry + nav removal.
 ## Do not touch
 
 - `src/lib/contact/` — external delivery configuration is separate from ordinary content edits
-- `src/lib/seo/` — except routes.ts (page registry) and structured-data.ts (business details)
+- `src/lib/seo/` — except routes.ts (page registry) and structured-data.ts (business details on older sites; newer ones keep them in SITE_BUSINESS in src/lib/site-config.ts)
 - `src/i18n/` — locale wiring
 - `scripts/` — pipeline tooling
 - `.github/` — blocked at push time anyway
