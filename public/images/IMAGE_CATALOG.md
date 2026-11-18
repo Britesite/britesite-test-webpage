@@ -5,11 +5,11 @@ fictional (see `brand.md`), so there are no client photos: every picture is a CC
 people in it, except the front-page hero, which was made with AI. A real client's own photos would replace these one for one.
 
 CC0 needs no credit, but the footer says "Billeder: CC0 fra Wikimedia Commons og rawpixel." anyway, and the
-sources stay listed here. Only `hero/bageri-cafe-vinduer.webp` is made with AI; it carries no visible "made with AI" note unless the owner asks for one.
+sources stay listed here. Only `hero/bageri-cafe-morgen.webp` is made with AI; it carries no visible "made with AI" note unless the owner asks for one.
 
 | File | Shows | Used on | Source | Licence | Provenance | Edits |
 |---|---|---|---|---|---|---|
-| `hero/bageri-cafe-vinduer.webp` | Bakery café with two arched windows, a green tufted bench, wooden tables, a glass counter with cakes and pastries and shelves of bread | Forside hero | Made with AI image generation at the owner's request | — | ai-generated | None (kept unchanged so the file keeps its AI provenance marks) |
+| `hero/bageri-cafe-morgen.webp` | Bright bakery café with two arched windows, a dark green bench, oak tables with a coffee cup, a glass counter with cinnamon buns and pastries and a rack of sourdough loaves | Forside hero | Made with AI image generation at the owner's request | — | ai-generated | None (kept unchanged so the file keeps its AI provenance marks) |
 | `services/morgenmad.jpg` | Breakfast table: toast with berries, coffee, bowl of fruit | Forside "Morgenmad", Menu | [Breakfast at Dawn (Unsplash)](https://commons.wikimedia.org/wiki/File:Breakfast_at_Dawn_(Unsplash).jpg), Wikimedia Commons | CC0 | stock | Resized to 1600 px |
 | `services/kage-og-kaffe.jpg` | Slice of crumb cake on paper beside a cappuccino | Forside "Kage og kaffe" | [Coffee and coffee cake (Unsplash)](https://commons.wikimedia.org/wiki/File:Coffee_and_coffee_cake_(Unsplash).jpg), Wikimedia Commons | CC0 | stock | Resized to 1600 px |
 | `services/frokost.jpg` | Toasted sandwich with egg, ham, cheese and tomato | Forside "Frokost" | [Breakfast (Unsplash)](https://commons.wikimedia.org/wiki/File:Breakfast_(Unsplash).jpg), Wikimedia Commons | CC0 | stock | Resized to 1600 px |

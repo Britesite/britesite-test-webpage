@@ -81,7 +81,7 @@ export default async function HomePage({
 
         <div>
           <Image
-            src="/images/hero/bageri-cafe-vinduer.webp"
+            src="/images/hero/bageri-cafe-morgen.webp"
             alt={t("heroAlt")}
             width={1024}
             height={1024}
