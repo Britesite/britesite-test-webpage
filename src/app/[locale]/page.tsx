@@ -81,10 +81,10 @@ export default async function HomePage({
 
         <div>
           <Image
-            src="/images/hero/bageri-cafe-morgen.webp"
+            src="/images/hero/bageri-cafe-disk.webp"
             alt={t("heroAlt")}
-            width={1024}
-            height={1024}
+            width={1440}
+            height={1440}
             priority
             sizes="(min-width: 1152px) 560px, (min-width: 768px) 50vw, 100vw"
             className="aspect-[4/3] w-full rounded-[20px] object-cover object-[60%_center] md:aspect-[5/6]"
